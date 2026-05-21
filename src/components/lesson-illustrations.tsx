@@ -1,5 +1,6 @@
 // Doodle-style SVG illustrations for lessons.
 // Each export is a pair: { Doodle, Photo } — both rendered as SVG scenes.
+import type { JSX } from 'react';
 
 function DoodleRuleOfThirds() {
   return (
