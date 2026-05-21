@@ -23,9 +23,22 @@ export function levelFromXp(xp: number): number {
   return Math.floor(xp / 500) + 1;
 }
 
+const profileDefaults: Omit<UserProfile, 'uid' | 'createdAt'> = {
+  displayName: '',
+  photoURL: '',
+  bio: '',
+  xp: 0,
+  level: 1,
+  streak: 0,
+  lastActiveDate: '',
+  interests: [],
+  completedLessons: [],
+};
+
 export async function getUserProfile(uid: string): Promise<UserProfile | null> {
   const snap = await getDoc(doc(db, 'users', uid));
-  return snap.exists() ? (snap.data() as UserProfile) : null;
+  if (!snap.exists()) return null;
+  return { ...profileDefaults, uid, ...snap.data() } as UserProfile;
 }
 
 export async function createUserProfile(uid: string, data: Partial<UserProfile>): Promise<void> {

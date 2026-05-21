@@ -1,10 +1,13 @@
 'use client';
 
-import { useState, use } from 'react';
+import { useState, use, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/auth-context';
 import { getLessonById, CATEGORIES } from '@/data/lessons';
 import { completeLesson } from '@/lib/firestore-users';
+import LessonIllustration from '@/components/lesson-illustrations';
+import PhotoPhil from '@/components/photo-phil';
+import { getCongratsForLesson } from '@/data/congrats';
 
 type Phase = 'lesson' | 'result';
 
@@ -60,51 +63,7 @@ export default function LessonPage({ params }: { params: Promise<{ lessonId: str
   }
 
   if (phase === 'result') {
-    return (
-      <div
-        className="min-h-screen flex flex-col items-center justify-center px-5 text-center"
-        style={{ background: 'var(--bg)' }}
-      >
-        <div className="text-6xl mb-4">{alreadyCompleted ? '⭐' : '🎉'}</div>
-        <h1 className="text-2xl font-bold mb-1">
-          {alreadyCompleted ? 'Already mastered!' : 'Lesson complete!'}
-        </h1>
-        <p className="text-sm mb-6" style={{ color: 'var(--muted)' }}>
-          {quizSteps > 0
-            ? `${correctCount}/${quizSteps} quiz questions correct`
-            : 'Great job working through this lesson.'}
-        </p>
-
-        {!alreadyCompleted && (
-          <div
-            className="rounded-2xl px-8 py-4 mb-8 text-center"
-            style={{ background: 'var(--surface)' }}
-          >
-            <p className="text-3xl font-bold" style={{ color: 'var(--primary)' }}>
-              +{lesson.xpReward} XP
-            </p>
-            <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>earned</p>
-          </div>
-        )}
-
-        <div className="flex flex-col gap-3 w-full max-w-xs">
-          <button
-            onClick={() => router.push('/learn')}
-            className="w-full py-4 rounded-2xl font-bold"
-            style={{ background: 'var(--primary)', color: '#0A0A0A' }}
-          >
-            Back to lessons
-          </button>
-          <button
-            onClick={() => router.push('/')}
-            className="w-full py-4 rounded-2xl font-semibold text-sm"
-            style={{ background: 'var(--surface)', color: 'var(--foreground)' }}
-          >
-            Go home
-          </button>
-        </div>
-      </div>
-    );
+    return <LessonResult lesson={lesson} alreadyCompleted={alreadyCompleted} correctCount={correctCount} quizSteps={quizSteps} />;
   }
 
   return (
@@ -146,9 +105,42 @@ export default function LessonPage({ params }: { params: Promise<{ lessonId: str
 
       {/* Step content */}
       <div className="flex-1 px-5 flex flex-col">
-        {step.type === 'info' ? (
+        {step.type === 'when-to-use' ? (
           <div className="flex-1 flex flex-col justify-between">
             <div>
+              <div
+                className="rounded-2xl p-6 mb-4"
+                style={{ background: 'rgba(88, 204, 2, 0.08)', border: '1.5px solid rgba(88, 204, 2, 0.22)' }}
+              >
+                <p className="text-sm font-bold uppercase tracking-wider mb-4" style={{ color: 'var(--success)' }}>
+                  🌿 When to reach for this
+                </p>
+                <div className="space-y-3">
+                  {step.scenarios?.map((scenario, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <span className="mt-0.5 text-sm font-bold flex-shrink-0" style={{ color: 'var(--success)' }}>→</span>
+                      <p className="text-sm leading-relaxed">{scenario}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {step.content && (
+                <p className="text-sm px-1" style={{ color: 'var(--muted)' }}>{step.content}</p>
+              )}
+            </div>
+            <button
+              onClick={handleNext}
+              disabled={saving}
+              className="w-full py-4 rounded-2xl font-bold mt-6 mb-8 disabled:opacity-50"
+              style={{ background: 'var(--primary)', color: '#fff' }}
+            >
+              {saving ? 'Saving…' : isLast ? 'Finish lesson' : 'Got it →'}
+            </button>
+          </div>
+        ) : step.type === 'info' ? (
+          <div className="flex-1 flex flex-col justify-between">
+            <div>
+              {step.illustration && <LessonIllustration id={step.illustration} />}
               <div
                 className="rounded-2xl p-6 mb-4"
                 style={{ background: 'var(--surface)' }}
@@ -171,7 +163,7 @@ export default function LessonPage({ params }: { params: Promise<{ lessonId: str
               onClick={handleNext}
               disabled={saving}
               className="w-full py-4 rounded-2xl font-bold mt-6 mb-8 disabled:opacity-50"
-              style={{ background: 'var(--primary)', color: '#0A0A0A' }}
+              style={{ background: 'var(--primary)', color: '#fff' }}
             >
               {saving ? 'Saving…' : isLast ? 'Finish lesson' : 'Got it →'}
             </button>
@@ -254,13 +246,140 @@ export default function LessonPage({ params }: { params: Promise<{ lessonId: str
                 onClick={handleNext}
                 disabled={saving}
                 className="w-full py-4 rounded-2xl font-bold mt-6 mb-8 disabled:opacity-50"
-                style={{ background: 'var(--primary)', color: '#0A0A0A' }}
+                style={{ background: 'var(--primary)', color: '#fff' }}
               >
                 {saving ? 'Saving…' : isLast ? 'Finish lesson' : 'Continue →'}
               </button>
             )}
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+// ── Lesson result / celebration screen ────────────────────────────────────
+
+import type { Lesson } from '@/data/lessons';
+
+function LessonResult({
+  lesson,
+  alreadyCompleted,
+  correctCount,
+  quizSteps,
+}: {
+  lesson: Lesson;
+  alreadyCompleted: boolean;
+  correctCount: number;
+  quizSteps: number;
+}) {
+  const router = useRouter();
+  const congrats = getCongratsForLesson(lesson.id);
+
+  useEffect(() => {
+    if (alreadyCompleted) return;
+    let cancelled = false;
+
+    import('canvas-confetti').then(({ default: confetti }) => {
+      if (cancelled) return;
+      const colors = ['#FF6B00', '#1B9AE4', '#58CC02', '#FFD700', '#FF4B4B', '#ffffff'];
+
+      confetti({ particleCount: 80, spread: 70, origin: { y: 0.55 }, colors });
+      setTimeout(() => { if (!cancelled) confetti({ particleCount: 50, spread: 100, angle: 60,  origin: { x: 0, y: 0.6 }, colors }); }, 220);
+      setTimeout(() => { if (!cancelled) confetti({ particleCount: 50, spread: 100, angle: 120, origin: { x: 1, y: 0.6 }, colors }); }, 380);
+    });
+
+    return () => { cancelled = true; };
+  }, [alreadyCompleted]);
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center px-5 pb-12 text-center" style={{ background: 'var(--bg)' }}>
+
+      {/* Confetti GIF overlay */}
+      <img
+        src="/confetti.gif"
+        alt=""
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          pointerEvents: 'none',
+          zIndex: 50,
+        }}
+      />
+
+      {/* Photo Phil */}
+      <div className="animate-phil mb-2" style={{ opacity: 0 }}>
+        <PhotoPhil size={200} />
+      </div>
+
+      {/* Headline */}
+      <div className="animate-fadeup" style={{ opacity: 0, animationDelay: '0.35s' }}>
+        <h1 className="text-2xl font-extrabold mb-2 leading-tight">
+          {alreadyCompleted ? 'Already a pro at this one!' : congrats.headline}
+        </h1>
+
+        {/* Score badge */}
+        {quizSteps > 0 && (
+          <p className="text-sm font-semibold mb-3" style={{ color: correctCount === quizSteps ? 'var(--success)' : 'var(--muted)' }}>
+            {correctCount === quizSteps ? '🎯 Perfect score!' : `${correctCount} / ${quizSteps} quiz questions correct`}
+          </p>
+        )}
+      </div>
+
+      {/* XP earned */}
+      {!alreadyCompleted && (
+        <div
+          className="animate-fadeup rounded-2xl px-8 py-3 mb-4"
+          style={{ opacity: 0, animationDelay: '0.45s', background: 'var(--surface)' }}
+        >
+          <p className="text-3xl font-extrabold" style={{ color: 'var(--primary)' }}>
+            +{lesson.xpReward} XP
+          </p>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>earned</p>
+        </div>
+      )}
+
+      {/* Congrats message */}
+      <div
+        className="animate-fadeup rounded-2xl p-5 mb-5 text-left max-w-sm w-full"
+        style={{ opacity: 0, animationDelay: '0.55s', background: 'var(--surface)' }}
+      >
+        <p className="text-sm leading-relaxed mb-3">{congrats.body}</p>
+        {congrats.quote && (
+          <div className="pt-3" style={{ borderTop: '1px solid var(--border)' }}>
+            <p className="text-sm italic leading-snug" style={{ color: 'var(--foreground)' }}>
+              "{congrats.quote}"
+            </p>
+            <p className="text-xs mt-1 font-semibold" style={{ color: 'var(--muted)' }}>
+              — {congrats.quoteAuthor}
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Buttons */}
+      <div
+        className="animate-fadeup flex flex-col gap-3 w-full max-w-sm"
+        style={{ opacity: 0, animationDelay: '0.65s' }}
+      >
+        <button
+          onClick={() => router.push('/learn')}
+          className="w-full py-4 rounded-2xl font-bold text-base"
+          style={{ background: 'var(--primary)', color: '#fff', boxShadow: 'var(--shadow-btn-primary)' }}
+        >
+          Keep learning →
+        </button>
+        <button
+          onClick={() => router.push('/')}
+          className="w-full py-3.5 rounded-2xl font-semibold text-sm"
+          style={{ background: 'var(--surface)', color: 'var(--foreground)', border: '1.5px solid var(--border)' }}
+        >
+          Go home
+        </button>
       </div>
     </div>
   );

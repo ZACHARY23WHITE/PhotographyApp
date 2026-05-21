@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/auth-context';
-import { updateDoc, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { createUserProfile } from '@/lib/firestore-users';
 
 const INTERESTS = [
   { id: 'composition', label: 'Composition', emoji: '📐' },
@@ -20,6 +19,7 @@ export default function OnboardingPage() {
   const router = useRouter();
   const [selected, setSelected] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   function toggle(id: string) {
     setSelected(prev =>
@@ -30,9 +30,19 @@ export default function OnboardingPage() {
   async function finish() {
     if (!user || selected.length === 0) return;
     setSaving(true);
-    await updateDoc(doc(db, 'users', user.uid), { interests: selected });
-    await refreshProfile();
-    router.replace('/');
+    setError(null);
+    try {
+      await createUserProfile(user.uid, {
+        displayName: user.displayName ?? '',
+        photoURL: user.photoURL ?? '',
+        interests: selected,
+      });
+      await refreshProfile();
+      router.replace('/');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.');
+      setSaving(false);
+    }
   }
 
   return (
@@ -61,7 +71,7 @@ export default function OnboardingPage() {
                 className="rounded-2xl p-5 text-left transition-all active:scale-95"
                 style={{
                   background: active ? 'var(--primary)' : 'var(--surface)',
-                  color: active ? '#0A0A0A' : 'var(--foreground)',
+                  color: active ? '#fff' : 'var(--foreground)',
                   border: `2px solid ${active ? 'var(--primary)' : 'transparent'}`,
                 }}
               >
@@ -71,6 +81,10 @@ export default function OnboardingPage() {
             );
           })}
         </div>
+
+        {error && (
+          <p className="mt-4 text-sm text-red-500">{error}</p>
+        )}
 
         <button
           onClick={finish}

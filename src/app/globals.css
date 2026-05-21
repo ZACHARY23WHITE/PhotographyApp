@@ -1,18 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0A0A0A;
-  --surface: #141414;
-  --surface-elevated: #1E1E1E;
-  --border: #2A2A2A;
-  --primary: #F5A623;
-  --primary-hover: #E09520;
-  --foreground: #FFFFFF;
-  --muted: #6B6B6B;
-  --muted-light: #9A9A9A;
-  --success: #4ADE80;
-  --danger: #F87171;
-  --streak: #FF6B35;
+  /* Park sky — backgrounds & surfaces */
+  --bg: #F0F7FF;
+  --surface: #FFFFFF;
+  --surface-elevated: #E2F0FB;
+  --border: #BDD8F0;
+
+  /* Orange — golden hour, autumn leaves, park benches */
+  --primary: #FF6B00;
+  --primary-hover: #E05F00;
+
+  /* Blue — open sky, pond water */
+  --secondary: #1B9AE4;
+  --secondary-hover: #1070BE;
+
+  /* Text */
+  --foreground: #1A2840;
+  --muted: #6A89AA;
+  --muted-light: #9BB5CC;
+
+  /* Status */
+  --success: #58CC02;
+  --danger: #FF4B4B;
+  --streak: #FF9600;
+
+  /* Elevation */
+  --shadow-card: 0 2px 12px rgba(27, 154, 228, 0.10), 0 1px 4px rgba(0, 0, 0, 0.06);
+  --shadow-btn-primary: 0 4px 0 #C45200;
+  --shadow-btn-secondary: 0 4px 0 #1069A8;
+  --shadow-btn-success: 0 4px 0 #46A201;
 }
 
 @theme inline {
@@ -21,6 +38,7 @@
   --color-surface-elevated: var(--surface-elevated);
   --color-border: var(--border);
   --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-success: var(--success);
@@ -38,12 +56,61 @@ html, body {
 
 body {
   background: var(--bg);
+  /* Subtle sky-blue glow from above, like sunlight through tree canopy */
+  background-image: radial-gradient(ellipse 160% 50% at 50% -10%, rgba(27, 154, 228, 0.14) 0%, transparent 65%);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Duolingo-style card elevation on rounded surfaces */
+.rounded-2xl[style*="var(--surface)"],
+.rounded-2xl[style*="background: 'var(--surface)'"] {
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+/* Duolingo press-down effect on primary buttons */
+.rounded-2xl[style*="var(--primary)"][style*="color"]:not([style*="background: 'var(--bg)'"]) {
+  box-shadow: var(--shadow-btn-primary);
+  transition: box-shadow 80ms, transform 80ms;
+}
+.rounded-2xl[style*="var(--primary)"][style*="color"]:active {
+  box-shadow: none;
+  transform: translateY(3px);
 }
 
 /* Disable default tap highlight on mobile */
 * {
   -webkit-tap-highlight-color: transparent;
 }
+
+@keyframes phil-bounce {
+  0%   { transform: translateY(40px) scale(0.7); opacity: 0; }
+  60%  { transform: translateY(-12px) scale(1.05); opacity: 1; }
+  80%  { transform: translateY(4px) scale(0.97); }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes fade-up {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes phil-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(1);    opacity: 0.75; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+
+.animate-phil      { animation: phil-bounce 0.65s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.animate-fadeup    { animation: fade-up 0.5s ease forwards; }
+.animate-phil-float { animation: phil-float 4s ease-in-out infinite; }
+.animate-pulse-ring { animation: pulse-ring 2.1s ease-out infinite; }
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

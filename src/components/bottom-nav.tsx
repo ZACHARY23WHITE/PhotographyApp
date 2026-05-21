@@ -15,16 +15,6 @@ const tabs = [
     ),
   },
   {
-    href: '/learn',
-    label: 'Learn',
-    icon: (active: boolean) => (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill={active ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-      </svg>
-    ),
-  },
-  {
     href: '/profile',
     label: 'Profile',
     icon: (active: boolean) => (
@@ -46,6 +36,7 @@ export default function BottomNav() {
         background: 'var(--surface)',
         borderColor: 'var(--border)',
         paddingBottom: 'env(safe-area-inset-bottom)',
+        boxShadow: '0 -2px 16px rgba(27, 154, 228, 0.08)',
       }}
     >
       {tabs.map(tab => {
@@ -55,7 +46,7 @@ export default function BottomNav() {
             key={tab.href}
             href={tab.href}
             className="flex flex-col items-center justify-center gap-1 flex-1 py-3 text-xs font-medium transition-colors"
-            style={{ color: active ? 'var(--primary)' : 'var(--muted)' }}
+            style={{ color: active ? 'var(--secondary)' : 'var(--muted)' }}
           >
             {tab.icon(active)}
             {tab.label}

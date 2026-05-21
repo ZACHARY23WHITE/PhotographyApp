@@ -14,7 +14,7 @@ export default function StreakBadge({ streak, size = 'md' }: StreakBadgeProps) {
   return (
     <div
       className={`inline-flex items-center rounded-full font-semibold ${s.gap} ${s.px}`}
-      style={{ background: 'rgba(255, 107, 53, 0.15)', color: 'var(--streak)' }}
+      style={{ background: 'rgba(255, 150, 0, 0.12)', color: 'var(--streak)', border: '1.5px solid rgba(255, 150, 0, 0.25)' }}
     >
       <span className={s.icon}>🔥</span>
       <span className={s.text}>{streak}</span>

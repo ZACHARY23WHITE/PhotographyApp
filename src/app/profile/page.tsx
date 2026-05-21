@@ -1,7 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { updateProfile, updateEmail } from 'firebase/auth';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { doc, updateDoc } from 'firebase/firestore';
+import { auth, storage, db } from '@/lib/firebase';
 import { useAuth } from '@/context/auth-context';
 import BottomNav from '@/components/bottom-nav';
 import XpBar from '@/components/xp-bar';
@@ -9,12 +14,83 @@ import StreakBadge from '@/components/streak-badge';
 import { LESSONS, CATEGORIES } from '@/data/lessons';
 
 export default function ProfilePage() {
-  const { user, profile, loading, signOut } = useAuth();
+  const { user, profile, loading, signOut, refreshProfile } = useAuth();
   const router = useRouter();
+
+  const [editing, setEditing] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!loading && !user) router.replace('/login');
   }, [loading, user, router]);
+
+  function startEditing() {
+    setName(profile?.displayName ?? '');
+    setEmail(user?.email ?? '');
+    setPhotoPreview(null);
+    setPhotoFile(null);
+    setError(null);
+    setEditing(true);
+  }
+
+  function cancelEditing() {
+    setEditing(false);
+    setError(null);
+  }
+
+  function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPhotoFile(file);
+    setPhotoPreview(URL.createObjectURL(file));
+  }
+
+  async function saveProfile() {
+    if (!user) return;
+    setSaving(true);
+    setError(null);
+    try {
+      let photoURL = profile?.photoURL ?? '';
+
+      if (photoFile) {
+        console.log('[profile] uploading photo…');
+        const storageRef = ref(storage, `avatars/${user.uid}`);
+        await uploadBytes(storageRef, photoFile);
+        console.log('[profile] upload done, getting URL…');
+        photoURL = await getDownloadURL(storageRef);
+        console.log('[profile] photoURL:', photoURL);
+      }
+
+      console.log('[profile] updating auth profile…');
+      await updateProfile(user, { displayName: name, photoURL });
+      console.log('[profile] updating firestore…');
+      await updateDoc(doc(db, 'users', user.uid), { displayName: name, photoURL });
+
+      if (email !== user.email) {
+        console.log('[profile] updating email…');
+        await updateEmail(user, email);
+      }
+
+      console.log('[profile] refreshing profile…');
+      await refreshProfile();
+      setEditing(false);
+    } catch (e) {
+      console.error('[profile] save error:', e);
+      if (e instanceof Error && e.message.includes('requires-recent-login')) {
+        setError('Please sign out and sign back in before changing your email.');
+      } else {
+        setError(e instanceof Error ? e.message : 'Failed to save. Please try again.');
+      }
+    } finally {
+      setSaving(false);
+    }
+  }
 
   if (loading || !profile) {
     return (
@@ -26,6 +102,8 @@ export default function ProfilePage() {
 
   const completedCount = profile.completedLessons.length;
   const totalLessons = LESSONS.length;
+  const avatarSrc = photoPreview ?? (profile.photoURL || null);
+  const nextLesson = LESSONS.find(l => !profile.completedLessons.includes(l.id));
 
   return (
     <div className="min-h-screen pb-24" style={{ background: 'var(--bg)' }}>
@@ -42,17 +120,109 @@ export default function ProfilePage() {
       </div>
 
       <div className="px-5 space-y-5">
-        {/* Avatar + name */}
-        <div className="flex items-center gap-4">
-          <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-bold"
-            style={{ background: 'var(--primary)', color: '#0A0A0A' }}
-          >
-            {profile.displayName.charAt(0).toUpperCase()}
+        {/* Avatar + identity */}
+        <div className="rounded-2xl p-5" style={{ background: 'var(--surface)' }}>
+          <div className="flex items-start gap-4">
+            {/* Avatar */}
+            <div className="relative flex-shrink-0">
+              {avatarSrc ? (
+                <img
+                  src={avatarSrc}
+                  alt="Profile"
+                  className="w-16 h-16 rounded-2xl object-cover"
+                />
+              ) : (
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-bold"
+                  style={{ background: 'var(--primary)', color: '#fff' }}
+                >
+                  {profile.displayName.charAt(0).toUpperCase()}
+                </div>
+              )}
+              {editing && (
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="absolute inset-0 rounded-2xl flex items-center justify-center"
+                  style={{ background: 'rgba(0,0,0,0.45)' }}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                  </svg>
+                </button>
+              )}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={onFileChange}
+              />
+            </div>
+
+            {/* Name / email */}
+            <div className="flex-1 min-w-0">
+              {editing ? (
+                <div className="space-y-2">
+                  <input
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    placeholder="Display name"
+                    className="w-full px-3 py-2 rounded-xl text-sm font-semibold outline-none"
+                    style={{ background: 'var(--bg)', color: 'var(--foreground)' }}
+                  />
+                  <input
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="Email address"
+                    type="email"
+                    className="w-full px-3 py-2 rounded-xl text-sm outline-none"
+                    style={{ background: 'var(--bg)', color: 'var(--foreground)' }}
+                  />
+                </div>
+              ) : (
+                <>
+                  <p className="font-bold text-lg truncate">{profile.displayName}</p>
+                  <p className="text-sm truncate" style={{ color: 'var(--muted)' }}>{user?.email}</p>
+                  <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>Level {profile.level} Photographer</p>
+                </>
+              )}
+            </div>
           </div>
-          <div>
-            <p className="font-bold text-lg">{profile.displayName}</p>
-            <p className="text-sm" style={{ color: 'var(--muted)' }}>Level {profile.level} Photographer</p>
+
+          {error && (
+            <p className="mt-3 text-sm text-red-500">{error}</p>
+          )}
+
+          <div className="mt-4 flex gap-2">
+            {editing ? (
+              <>
+                <button
+                  onClick={saveProfile}
+                  disabled={saving}
+                  className="flex-1 py-2.5 rounded-xl text-sm font-bold disabled:opacity-50"
+                  style={{ background: 'var(--primary)', color: '#fff' }}
+                >
+                  {saving ? 'Saving…' : 'Save'}
+                </button>
+                <button
+                  onClick={cancelEditing}
+                  disabled={saving}
+                  className="px-4 py-2.5 rounded-xl text-sm font-semibold"
+                  style={{ background: 'var(--bg)', color: 'var(--muted)' }}
+                >
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={startEditing}
+                className="px-4 py-2.5 rounded-xl text-sm font-semibold"
+                style={{ background: 'var(--bg)', color: 'var(--foreground)' }}
+              >
+                Edit profile
+              </button>
+            )}
           </div>
         </div>
 
@@ -78,6 +248,77 @@ export default function ProfilePage() {
         <div className="rounded-2xl p-4" style={{ background: 'var(--surface)' }}>
           <p className="font-semibold text-sm mb-3">Progress to Level {profile.level + 1}</p>
           <XpBar xp={profile.xp} />
+        </div>
+
+        {/* Up Next */}
+        {nextLesson && (
+          <div>
+            <h2 className="text-sm font-semibold mb-3 uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
+              Up Next
+            </h2>
+            <Link href={`/learn/${nextLesson.id}`}>
+              <div
+                className="rounded-2xl p-5 flex items-center gap-4 active:scale-[0.98] transition-transform cursor-pointer"
+                style={{ background: 'var(--primary)', color: '#fff' }}
+              >
+                <div className="text-4xl">
+                  {CATEGORIES.find(c => c.id === nextLesson.category)?.emoji}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-semibold uppercase tracking-wider opacity-70 mb-0.5">
+                    {nextLesson.category}
+                  </p>
+                  <p className="font-bold text-lg leading-tight">{nextLesson.title}</p>
+                  <p className="text-sm opacity-75 mt-0.5">{nextLesson.estimatedMinutes} min · {nextLesson.xpReward} XP</p>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </div>
+            </Link>
+          </div>
+        )}
+
+        {completedCount === LESSONS.length && (
+          <div className="rounded-2xl p-5 text-center" style={{ background: 'var(--surface)' }}>
+            <p className="text-3xl mb-2">🏆</p>
+            <p className="font-bold">All lessons complete!</p>
+            <p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>More lessons coming soon.</p>
+          </div>
+        )}
+
+        {/* Categories overview */}
+        <div>
+          <h2 className="text-sm font-semibold mb-3 uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
+            Categories
+          </h2>
+          <div className="grid grid-cols-2 gap-3">
+            {CATEGORIES.map(cat => {
+              const catLessons = LESSONS.filter(l => l.category === cat.id);
+              const catCompleted = catLessons.filter(l => profile.completedLessons.includes(l.id)).length;
+              const pct = Math.round((catCompleted / catLessons.length) * 100);
+              return (
+                <Link key={cat.id} href="/">
+                  <div
+                    className="rounded-2xl p-4 active:scale-[0.97] transition-transform cursor-pointer"
+                    style={{ background: 'var(--surface)' }}
+                  >
+                    <div className="text-2xl mb-2">{cat.emoji}</div>
+                    <p className="font-semibold text-sm">{cat.label}</p>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>
+                      {catCompleted}/{catLessons.length} done
+                    </p>
+                    <div className="mt-2 h-1 rounded-full overflow-hidden" style={{ background: 'var(--surface-elevated)' }}>
+                      <div
+                        className="h-full rounded-full"
+                        style={{ width: `${pct}%`, background: 'var(--primary)' }}
+                      />
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
         {/* Category progress */}
@@ -134,7 +375,7 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {/* Progress bar overall */}
+        {/* Overall progress */}
         <div className="rounded-2xl p-4" style={{ background: 'var(--surface)' }}>
           <div className="flex items-center justify-between mb-2">
             <p className="font-semibold text-sm">Overall completion</p>
