@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/auth-context';
 import BottomNav from '@/components/bottom-nav';
 import PhotoPhil from '@/components/photo-phil';
-import { CATEGORIES, getLessonsByCategory, LESSONS } from '@/data/lessons';
+import { CATEGORIES, getCategoriesForCameraType, getLessonsByCategory, LESSONS } from '@/data/lessons';
 import type { Lesson, LessonCategory } from '@/data/lessons';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -17,10 +17,13 @@ const LEVEL_TITLES: Record<number, string> = {
 };
 
 const CHAPTER_THEMES: Record<LessonCategory, { color: string; bg: string; shadow: string; tagline: string }> = {
-  composition: { color: '#FF6B00', bg: '#FFF4EE', shadow: '#C45200', tagline: 'Frame your world like a pro' },
-  color:       { color: '#E8534A', bg: '#FFF1F0', shadow: '#B83A32', tagline: 'Paint with light and hue' },
-  lighting:    { color: '#F5A623', bg: '#FFFCEF', shadow: '#C07D10', tagline: 'Chase the perfect light' },
-  technique:   { color: '#1B9AE4', bg: '#EFF8FF', shadow: '#1070BE', tagline: 'Master your camera controls' },
+  composition:  { color: '#FF6B00', bg: '#FFF4EE', shadow: '#C45200', tagline: 'Frame your world like a pro' },
+  color:        { color: '#E8534A', bg: '#FFF1F0', shadow: '#B83A32', tagline: 'Paint with light and hue' },
+  lighting:     { color: '#F5A623', bg: '#FFFCEF', shadow: '#C07D10', tagline: 'Chase the perfect light' },
+  technique:    { color: '#1B9AE4', bg: '#EFF8FF', shadow: '#1070BE', tagline: 'Master your camera controls' },
+  iphone:       { color: '#1B9AE4', bg: '#EFF8FF', shadow: '#1070BE', tagline: 'Get the most from your iPhone' },
+  'pro-camera': { color: '#8B5CF6', bg: '#F3F0FF', shadow: '#6D3FD1', tagline: 'Get everything from your pro camera' },
+  gear:         { color: '#10B981', bg: '#ECFDF5', shadow: '#0A8A61', tagline: 'Gear that elevates every shot' },
 };
 
 const NODE_SIZE = 64;
@@ -94,7 +97,7 @@ function ChevronRight({ color = 'white' }: { color?: string }) {
 
 // ── LessonNode ────────────────────────────────────────────────────────────────
 
-function LessonNode({ lesson, state, chapterColor }: { lesson: Lesson; state: NodeState; chapterColor: string }) {
+function LessonNode({ lesson, state, chapterColor, practiced }: { lesson: Lesson; state: NodeState; chapterColor: string; practiced: boolean }) {
   const circleBg =
     state === 'done'   ? '#58CC02' :
     state === 'active' ? '#FF6B00' :
@@ -140,6 +143,26 @@ function LessonNode({ lesson, state, chapterColor }: { lesson: Lesson; state: No
           {state === 'next'   && <CameraIcon color={chapterColor} size={22} />}
           {state === 'locked' && <LockIcon />}
         </div>
+        {state === 'done' && practiced && (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              width: 20,
+              height: 20,
+              borderRadius: '50%',
+              background: '#fff',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.18)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 11,
+            }}
+          >
+            📷
+          </div>
+        )}
       </div>
       <p
         className="text-[10px] font-semibold text-center leading-tight"
@@ -151,8 +174,9 @@ function LessonNode({ lesson, state, chapterColor }: { lesson: Lesson; state: No
   );
 
   if (state === 'locked') return <div>{inner}</div>;
+  const href = state === 'done' && practiced ? `/practice/${lesson.id}` : `/learn/${lesson.id}`;
   return (
-    <Link href={`/learn/${lesson.id}`} className="block active:scale-95 transition-transform">
+    <Link href={href} className="block active:scale-95 transition-transform">
       {inner}
     </Link>
   );
@@ -185,10 +209,12 @@ function Connector({ state }: { state: ConnState }) {
 function ChapterRow({
   category,
   completedLessons,
+  practicedLessons,
   currentLessonId,
 }: {
   category: (typeof CATEGORIES)[number];
   completedLessons: string[];
+  practicedLessons: string[];
   currentLessonId: string | undefined;
 }) {
   const lessons = getLessonsByCategory(category.id);
@@ -269,7 +295,7 @@ function ChapterRow({
         >
           {lessons.map((lesson, i) => (
             <div key={lesson.id} style={{ display: 'flex', alignItems: 'flex-start', flexShrink: 0 }}>
-              <LessonNode lesson={lesson} state={nodeStates[i]} chapterColor={theme.color} />
+              <LessonNode lesson={lesson} state={nodeStates[i]} chapterColor={theme.color} practiced={practicedLessons.includes(lesson.id)} />
               {i < lessons.length - 1 && (
                 <Connector state={getConnState(nodeStates[i], nodeStates[i + 1])} />
               )}
@@ -428,19 +454,6 @@ function Header({ streak, displayName, photoURL }: { streak: number; displayName
         <span style={{ fontSize: 21, fontWeight: 900, color: 'var(--foreground)', letterSpacing: '-0.02em' }}>shotly</span>
       </div>
 
-      {/* Desktop center nav */}
-      <nav className="hidden sm:flex items-center gap-1">
-        {[{ href: '/', label: 'Home' }, { href: '/profile', label: 'Profile' }].map(({ href, label }) => (
-          <Link
-            key={href}
-            href={href}
-            className="px-4 py-1.5 rounded-full text-sm font-semibold transition-colors"
-            style={{ background: href === '/' ? '#FFF4EE' : 'transparent', color: href === '/' ? '#FF6B00' : '#8A9EAF' }}
-          >
-            {label}
-          </Link>
-        ))}
-      </nav>
 
       {/* Streak + avatar */}
       <div className="flex items-center gap-2">
@@ -491,7 +504,10 @@ export default function HomePage() {
     );
   }
 
-  const currentLesson = LESSONS.find(l => !profile.completedLessons.includes(l.id));
+  const visibleCategories = getCategoriesForCameraType(profile.cameraTypes ?? []);
+  const visibleCategoryIds = visibleCategories.map(c => c.id);
+  const visibleLessons = LESSONS.filter(l => visibleCategoryIds.includes(l.category));
+  const currentLesson = visibleLessons.find(l => !profile.completedLessons.includes(l.id));
   const completedCount = profile.completedLessons.length;
   const xpIntoLevel = profile.xp % 500;
 
@@ -599,21 +615,37 @@ export default function HomePage() {
           </div>
 
           {/* Chapter rows */}
-          {CATEGORIES.map(cat => (
+          {visibleCategories.map(cat => (
             <ChapterRow
               key={cat.id}
               category={cat}
               completedLessons={profile.completedLessons}
+              practicedLessons={profile.practicedLessons ?? []}
               currentLessonId={currentLesson?.id}
             />
           ))}
+
+          {/* Camera type nudge if not set */}
+          {(profile.cameraTypes ?? []).length === 0 && (
+            <div
+              className="mx-5 mb-5 rounded-2xl p-4 flex items-center gap-3"
+              style={{ background: '#FFF4EE', border: '1.5px solid #FFD0B0' }}
+            >
+              <span style={{ fontSize: 22 }}>📷</span>
+              <div className="flex-1 min-w-0">
+                <p style={{ fontSize: 13, fontWeight: 800, color: '#FF6B00', marginBottom: 2 }}>
+                  Unlock your camera's lessons
+                </p>
+                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--muted)', lineHeight: 1.4 }}>
+                  Set your camera type in Profile to unlock iPhone or Pro Camera chapters.
+                </p>
+              </div>
+            </div>
+          )}
         </main>
       </div>
 
-      {/* Mobile bottom nav */}
-      <div className="sm:hidden">
-        <BottomNav />
-      </div>
+      <BottomNav />
     </div>
   );
 }

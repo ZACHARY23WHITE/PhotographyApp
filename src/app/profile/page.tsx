@@ -11,13 +11,17 @@ import { useAuth } from '@/context/auth-context';
 import BottomNav from '@/components/bottom-nav';
 import XpBar from '@/components/xp-bar';
 import StreakBadge from '@/components/streak-badge';
-import { LESSONS, CATEGORIES } from '@/data/lessons';
+import { LESSONS, CATEGORIES, getLessonById } from '@/data/lessons';
+import { updateCameraTypes, CameraType } from '@/lib/firestore-users';
+import { getUserPracticeSubmissions, PracticeSubmission } from '@/lib/firestore-practice';
 
 export default function ProfilePage() {
   const { user, profile, loading, signOut, refreshProfile } = useAuth();
   const router = useRouter();
 
   const [editing, setEditing] = useState(false);
+  const [savingCamera, setSavingCamera] = useState(false);
+  const [practiceSubmissions, setPracticeSubmissions] = useState<PracticeSubmission[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -29,6 +33,11 @@ export default function ProfilePage() {
   useEffect(() => {
     if (!loading && !user) router.replace('/login');
   }, [loading, user, router]);
+
+  useEffect(() => {
+    if (!user) return;
+    getUserPracticeSubmissions(user.uid).then(setPracticeSubmissions).catch(() => {});
+  }, [user]);
 
   function startEditing() {
     setName(profile?.displayName ?? '');
@@ -250,6 +259,69 @@ export default function ProfilePage() {
           <XpBar xp={profile.xp} />
         </div>
 
+        {/* My Camera */}
+        <div>
+          <h2 className="text-sm font-semibold mb-3 uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
+            My Camera
+          </h2>
+          <div className="grid grid-cols-2 gap-3">
+            {([
+              { id: 'iphone' as CameraType, label: 'iPhone', subtitle: 'Built-in camera', emoji: '📱', accent: '#1B9AE4', bg: '#EFF8FF' },
+              { id: 'professional' as CameraType, label: 'Professional', subtitle: 'DSLR / Mirrorless', emoji: '🎥', accent: '#FF6B00', bg: '#FFF4EE' },
+            ] as const).map(opt => {
+              const selected = (profile.cameraTypes ?? []).includes(opt.id);
+              return (
+                <button
+                  key={opt.id}
+                  disabled={savingCamera}
+                  onClick={async () => {
+                    if (savingCamera || !user) return;
+                    const current = profile.cameraTypes ?? [];
+                    const next = selected
+                      ? current.filter(c => c !== opt.id)
+                      : [...current, opt.id];
+                    setSavingCamera(true);
+                    await updateCameraTypes(user.uid, next);
+                    await refreshProfile();
+                    setSavingCamera(false);
+                  }}
+                  className="rounded-2xl p-4 text-left transition-all active:scale-[0.97] disabled:opacity-60"
+                  style={{
+                    background: selected ? opt.bg : 'var(--surface)',
+                    border: `2px solid ${selected ? opt.accent : 'var(--border)'}`,
+                    cursor: selected ? 'default' : 'pointer',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 44, height: 44, borderRadius: 12,
+                      background: selected ? opt.accent : 'var(--surface-elevated)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 22, marginBottom: 10,
+                    }}
+                  >
+                    {opt.emoji}
+                  </div>
+                  <p style={{ fontSize: 14, fontWeight: 800, color: selected ? opt.accent : 'var(--foreground)', marginBottom: 2 }}>
+                    {opt.label}
+                  </p>
+                  <p style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--muted)' }}>
+                    {opt.subtitle}
+                  </p>
+                  {selected && (
+                    <div className="flex items-center gap-1 mt-2">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={opt.accent} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 6L9 17l-5-5" />
+                      </svg>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: opt.accent }}>Selected</span>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Up Next */}
         {nextLesson && (
           <div>
@@ -353,6 +425,66 @@ export default function ProfilePage() {
               );
             })}
           </div>
+        </div>
+
+        {/* My Practice */}
+        <div>
+          <h2 className="text-sm font-semibold mb-3 uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
+            My Practice
+          </h2>
+          {practiceSubmissions.length === 0 ? (
+            <div
+              className="rounded-2xl p-5 text-center"
+              style={{ background: 'var(--surface)', border: '1.5px dashed var(--border)' }}
+            >
+              <p className="text-2xl mb-2">📷</p>
+              <p className="font-semibold text-sm mb-1">No practice shots yet</p>
+              <p className="text-xs" style={{ color: 'var(--muted)', lineHeight: 1.5 }}>
+                Complete a lesson, then come back to practice and upload your first shot.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-3">
+              {practiceSubmissions.map(sub => {
+                const subLesson = getLessonById(sub.lessonId);
+                const firstPhoto = sub.photoURLs?.[0];
+                const extraCount = (sub.photoURLs?.length ?? 0) - 1;
+                if (!firstPhoto) return null;
+                return (
+                  <Link key={sub.id} href={`/practice/${sub.lessonId}`}>
+                    <div
+                      className="rounded-2xl overflow-hidden active:scale-[0.97] transition-transform cursor-pointer"
+                      style={{ background: 'var(--surface)' }}
+                    >
+                      <div style={{ position: 'relative' }}>
+                        <img
+                          src={firstPhoto}
+                          alt={subLesson?.title ?? sub.lessonId}
+                          style={{ width: '100%', aspectRatio: '1', objectFit: 'cover', display: 'block' }}
+                        />
+                        {extraCount > 0 && (
+                          <div
+                            style={{
+                              position: 'absolute', bottom: 6, right: 6,
+                              background: 'rgba(0,0,0,0.55)', borderRadius: 8,
+                              padding: '2px 7px',
+                            }}
+                          >
+                            <p style={{ fontSize: 11, fontWeight: 700, color: '#fff' }}>+{extraCount}</p>
+                          </div>
+                        )}
+                      </div>
+                      <div className="px-3 py-2">
+                        <p className="text-xs font-bold truncate" style={{ color: 'var(--foreground)' }}>
+                          {subLesson?.title ?? sub.lessonId}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Interests */}

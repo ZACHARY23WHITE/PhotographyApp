@@ -1,0 +1,19 @@
+{
+  "apphosting": {
+    "backendId": "shotlybackend",
+    "rootDir": "main",
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "functions"
+    ]
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

@@ -1,4 +1,4 @@
-export type LessonCategory = 'composition' | 'color' | 'lighting' | 'technique';
+export type LessonCategory = 'composition' | 'color' | 'lighting' | 'technique' | 'iphone' | 'pro-camera' | 'gear';
 export type StepType = 'info' | 'quiz' | 'when-to-use';
 
 export interface LessonStep {
@@ -20,6 +20,7 @@ export interface Lesson {
   xpReward: number;
   estimatedMinutes: number;
   steps: LessonStep[];
+  practicePrompt?: string;
 }
 
 export const LESSONS: Lesson[] = [
@@ -81,6 +82,7 @@ export const LESSONS: Lesson[] = [
         correct: 1,
       },
     ],
+    practicePrompt: 'Take 5 photos placing your subject on a grid intersection. Try a portrait, a landscape, and a still object — then pick your strongest shot.',
   },
   {
     id: 'leading-lines',
@@ -139,6 +141,7 @@ export const LESSONS: Lesson[] = [
         correct: 1,
       },
     ],
+    practicePrompt: 'Find 3 different leading lines — a road, a fence, a shoreline — and shoot each one. Focus on lines that converge toward your subject or vanish into the distance.',
   },
   {
     id: 'framing',
@@ -197,6 +200,7 @@ export const LESSONS: Lesson[] = [
         correct: 1,
       },
     ],
+    practicePrompt: 'Shoot 3 photos using a natural frame — a doorway, an archway, or overhanging branches. The frame should feel like a window that pulls the eye straight to your subject.',
   },
   {
     id: 'negative-space',
@@ -252,6 +256,7 @@ export const LESSONS: Lesson[] = [
         correct: 1,
       },
     ],
+    practicePrompt: 'Take a photo where your subject fills less than 25% of the frame. Let the empty space breathe. Try it with a bird, a person, or a small object against a plain background.',
   },
   {
     id: 'symmetry',
@@ -310,6 +315,7 @@ export const LESSONS: Lesson[] = [
         correct: 1,
       },
     ],
+    practicePrompt: 'Find a perfectly symmetrical scene and shoot it dead-center. Then deliberately break the symmetry in a second shot by shifting your position. Compare both.',
   },
   {
     id: 'fill-the-frame',
@@ -367,6 +373,7 @@ export const LESSONS: Lesson[] = [
         correct: 1,
       },
     ],
+    practicePrompt: 'Get as close to your subject as feels comfortable — then get closer. Fill the entire frame so there is no background at all. Try it on a face, a flower, or a textured surface.',
   },
   {
     id: 'golden-ratio',
@@ -424,6 +431,7 @@ export const LESSONS: Lesson[] = [
         correct: 1,
       },
     ],
+    practicePrompt: 'Find a scene with a natural spiral — a staircase, a flower, a winding path. Place where the spiral converges at your focal point and shoot it. Compare it to a centered version.',
   },
   {
     id: 'rule-of-odds',
@@ -481,6 +489,7 @@ export const LESSONS: Lesson[] = [
         correct: 1,
       },
     ],
+    practicePrompt: 'Find or arrange a group of exactly 3 or 5 similar subjects — stones, candles, fruit, flowers. Shoot the odd-numbered group. Then add one more to make it even. Compare both shots.',
   },
   {
     id: 'depth-and-layers',
@@ -538,6 +547,7 @@ export const LESSONS: Lesson[] = [
         correct: 1,
       },
     ],
+    practicePrompt: 'Find a scene that looks flat from standing height. Get low to add a strong foreground element — rocks, grass, leaves, pavement. Shoot it twice: once standing, once from ground level. Compare.',
   },
   {
     id: 'viewpoint',
@@ -596,6 +606,7 @@ export const LESSONS: Lesson[] = [
         correct: 1,
       },
     ],
+    practicePrompt: 'Pick one subject and photograph it from 5 angles: eye level, crouching, ground level, from above, and tilted Dutch-angle. Pick your favorite and think about why it works.',
   },
   {
     id: 'diagonal-composition',
@@ -654,6 +665,7 @@ export const LESSONS: Lesson[] = [
         correct: 0,
       },
     ],
+    practicePrompt: 'Find a scene with strong diagonal lines — a staircase, a road, a building corner. Shoot it so the diagonals cut energetically across the frame. Try a slight Dutch-angle tilt and compare.',
   },
 
   // ── Color ────────────────────────────────────────────────────────────────
@@ -983,6 +995,703 @@ export const LESSONS: Lesson[] = [
       },
     ],
   },
+
+  // ── iPhone ────────────────────────────────────────────────────────────────
+  {
+    id: 'iphone-tap-focus',
+    title: 'Tap to Focus & Lock Exposure',
+    description: 'The most powerful iPhone camera trick most people never use — take full control of focus and exposure.',
+    category: 'iphone',
+    difficulty: 'beginner',
+    xpReward: 75,
+    estimatedMinutes: 4,
+    steps: [
+      {
+        type: 'info',
+        content: 'Tapping the screen tells your iPhone exactly where to focus and sets exposure for that spot. A yellow box appears showing your focus point. By default the iPhone guesses — tapping puts you in control.',
+        tip: 'Tap on your subject\'s face, not the background. The iPhone wants to expose for whatever you tap.',
+      },
+      {
+        type: 'info',
+        content: 'To lock both focus and exposure so the iPhone stops readjusting, long-press anywhere on the screen. "AE/AF LOCK" appears at the top. This is essential for tricky backlit scenes or any shot where the camera keeps hunting for focus.',
+        tip: 'After locking, you can still swipe up or down on the sun icon to fine-tune brightness.',
+      },
+      {
+        type: 'quiz',
+        content: 'You\'re shooting a backlit portrait — the face looks too dark because the bright background is dominating exposure. What should you do?',
+        options: [
+          'Move to a different location',
+          'Tap directly on the subject\'s face to expose for them',
+          'Turn on the flash',
+          'Use Portrait mode',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'After tapping to focus, a sun icon with a vertical slider appears. Drag up to brighten the shot, drag down to darken it. This is manual exposure compensation — use it every time the iPhone gets it wrong, which is often in high-contrast scenes.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'Once you start tapping to control focus and exposure, auto mode will frustrate you.',
+        scenarios: [
+          'Backlit portraits where the face is in shadow',
+          'Shooting through glass, a fence, or foliage',
+          'Any high-contrast scene (bright window + dark interior)',
+          'Product shots where you need precise focus on one detail',
+          'Any time the iPhone keeps hunting or shifting exposure',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'iphone-portrait-mode',
+    title: 'Portrait Mode & Depth Effect',
+    description: 'Use computational bokeh to isolate subjects like a pro — and edit the blur level after you shoot.',
+    category: 'iphone',
+    difficulty: 'beginner',
+    xpReward: 75,
+    estimatedMinutes: 4,
+    steps: [
+      {
+        type: 'info',
+        content: 'Portrait mode uses multiple lenses and machine learning to blur the background (bokeh effect). It works best at 2–8 feet from your subject. Too close or too far and it won\'t engage. The yellow box shows what it\'s focused on.',
+        tip: 'Portrait mode works on people, pets, and objects — not just faces.',
+      },
+      {
+        type: 'info',
+        content: 'Portrait mode offers six Lighting Effects: Natural Light, Studio Light, Contour Light, Stage Light, Stage Light Mono, and High‑Key Light Mono. For flattering portraits, Studio Light and Contour Light are the most professional-looking.',
+      },
+      {
+        type: 'quiz',
+        content: 'You took a Portrait mode photo but want more background blur. You can only adjust this in-camera before shooting. True or false?',
+        options: [
+          'True — it\'s fixed after capture',
+          'False — you can adjust the blur depth in the Photos app after shooting',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'After shooting, open the photo in the Photos app, tap Edit, and you\'ll see an f-stop slider at the top. Slide left for less blur, right for more. You can also switch between Lighting Effects at any point. The depth data is stored with the photo permanently.',
+        tip: 'This post-edit flexibility is one of Portrait mode\'s best features — shoot first, decide the look later.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'Portrait mode is your iPhone\'s most powerful creative tool.',
+        scenarios: [
+          'Headshots and close-up portraits',
+          'Pet photos — animals with fur look incredible with bokeh',
+          'Product photography to isolate the item from a messy background',
+          'Food shots where you want the foreground crisp and background soft',
+          'Any time you want "professional camera" look from your phone',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'iphone-proraw',
+    title: 'ProRAW: Maximum Editing Power',
+    description: 'Capture everything the sensor sees — far more editing headroom than JPEG for serious shots.',
+    category: 'iphone',
+    difficulty: 'intermediate',
+    xpReward: 100,
+    estimatedMinutes: 5,
+    steps: [
+      {
+        type: 'info',
+        content: 'ProRAW (iPhone 12 Pro and newer) captures all raw sensor data combined with Apple\'s computational photography. You get 10x more editing information than a standard JPEG — meaning you can pull back overexposed highlights or lift deep shadows that would be permanently lost in a JPEG.',
+        tip: 'ProRAW files are ~25MB each vs ~5MB for JPEG. Make sure you have storage to spare.',
+      },
+      {
+        type: 'info',
+        content: 'To enable: Settings → Camera → Formats → Apple ProRAW. Toggle it on. You\'ll then see a "RAW" badge in the top-right corner of the Camera app whenever it\'s active. Tap the badge to toggle per-shot.',
+      },
+      {
+        type: 'quiz',
+        content: 'You shot a golden hour landscape in ProRAW. The sky is bright, the foreground dark. What can you do in editing that you couldn\'t with a JPEG?',
+        options: [
+          'Nothing — RAW just makes the file bigger',
+          'Recover blown sky highlights AND lift shadow detail independently',
+          'Change the focal length after the fact',
+          'Remove lens distortion',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'Apple ProRes (iPhone 13 Pro+) is the video equivalent — LOG-quality flat video files for professional color grading. Files are enormous (4K ProRes at 30fps ≈ 6GB/min) so use it only when you need maximum quality for a project you\'ll color grade in post.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'Reserve ProRAW for your best shots — the extra file size adds up fast.',
+        scenarios: [
+          'Golden hour and sunsets where highlights blow out in JPEG',
+          'Low-light scenes where you\'ll push shadows in editing',
+          'Any shot you plan to edit seriously in Lightroom or Darkroom',
+          'High-contrast indoor/outdoor scenes',
+          'Anything that needs to be printed large',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'iphone-night-mode',
+    title: 'Night Mode & Low-Light Mastery',
+    description: 'Get sharp, bright photos after dark — and learn how to push Night Mode beyond auto.',
+    category: 'iphone',
+    difficulty: 'beginner',
+    xpReward: 75,
+    estimatedMinutes: 4,
+    steps: [
+      {
+        type: 'info',
+        content: 'Night Mode activates automatically when it\'s dark — a yellow moon icon appears in the top left. The number next to it is the exposure time in seconds. Night Mode takes multiple frames and stacks them, then uses AI to align and merge them into a single sharp, bright photo.',
+      },
+      {
+        type: 'info',
+        content: 'You can manually control the duration: tap the moon icon, then drag the slider. "Auto" lets the iPhone decide. Dragging right extends the time up to 30 seconds (on a tripod). Longer = brighter image, but any movement — yours or the subject\'s — causes blur.',
+        tip: 'The iPhone shows a circular progress animation while Night Mode shoots. Hold very still until it completes.',
+      },
+      {
+        type: 'quiz',
+        content: 'You\'re shooting a night cityscape with your iPhone mounted on a tripod. What Night Mode setting gets you the best result?',
+        options: [
+          'Auto — let the iPhone decide',
+          'Maximum duration — the tripod eliminates shake so longer = brighter',
+          'Minimum duration — short exposures are always sharper',
+          'Turn Night Mode off completely',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'For handheld Night Mode: brace your elbows against your body or a wall, hold your breath while shooting, or use the self-timer (3 seconds) so pressing the button doesn\'t shake the camera. Even tiny movements are magnified over a 3-second exposure.',
+        tip: 'The iPhone\'s OIS (optical image stabilization) does most of the heavy lifting — trust it, but help it out by staying still.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'Night Mode is your best friend after sunset.',
+        scenarios: [
+          'Night cityscapes and street photography',
+          'Indoor shots in dim restaurants or candlelit scenes',
+          'Astro photography — point at the sky for 10–30 seconds on a tripod',
+          'Any scene where a flash would be too harsh or not allowed',
+          'Twilight portraits — use Night Mode + a nearby light source on the face',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'iphone-cinematic',
+    title: 'Cinematic Mode: Movie-Quality Focus',
+    description: 'Shoot professional rack-focus video and edit focus decisions after the fact.',
+    category: 'iphone',
+    difficulty: 'intermediate',
+    xpReward: 100,
+    estimatedMinutes: 5,
+    steps: [
+      {
+        type: 'info',
+        content: 'Cinematic Mode (iPhone 13 and newer) automatically shifts focus between subjects as they enter and leave the frame — exactly like a professional focus puller on a film set. It records depth data with every frame, so you can change focus points after you\'ve already recorded.',
+        tip: 'Cinematic Mode shoots in Dolby Vision HDR. It looks great on any modern screen.',
+      },
+      {
+        type: 'info',
+        content: 'While recording, tap any subject to manually lock focus on them. A solid yellow box appears (locked). A white dashed box means the iPhone is suggesting a focus shift — tap to confirm it, or ignore it. Tap-hold anywhere to lock focus in place completely and stop all auto-shifting.',
+      },
+      {
+        type: 'quiz',
+        content: 'You recorded a Cinematic Mode clip and want to change exactly when the focus racks from person A to person B. Where do you do this?',
+        options: [
+          'You can\'t — focus is baked in at recording time',
+          'In the Photos app edit screen — a focus timeline at the bottom lets you tap, add, and move focus points',
+          'In iMovie only',
+          'You have to re-record the scene',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'In the Photos app editor, the f-stop slider at the top controls blur intensity — all the way right is maximum cinema blur (f/1.4 equivalent). You can change this per-clip. Combined with the focus timeline, you have full creative control after the shoot.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'Cinematic Mode is overkill for quick clips — save it for shots where focus IS the story.',
+        scenarios: [
+          'Interview-style videos — focus shifts give a professional documentary feel',
+          'Two-person conversations — rack focus to show who\'s talking',
+          'Product reveals — start focused on background, rack to foreground product',
+          'Narrative video and short films',
+          'Any b-roll where shallow depth of field adds production value',
+        ],
+      },
+    ],
+  },
+
+  // ── Pro Camera ────────────────────────────────────────────────────────────
+  {
+    id: 'pro-exposure-triangle',
+    title: 'The Exposure Triangle',
+    description: 'Aperture, ISO, and shutter speed — master all three and exposure becomes second nature.',
+    category: 'pro-camera',
+    difficulty: 'beginner',
+    xpReward: 100,
+    estimatedMinutes: 6,
+    steps: [
+      {
+        type: 'info',
+        content: 'Three settings control exposure: Aperture (how wide the lens opens), ISO (sensor sensitivity to light), and Shutter Speed (how long the shutter stays open). They\'re connected — changing one requires adjusting the others to maintain correct exposure.',
+        illustration: 'exposure-triangle',
+      },
+      {
+        type: 'info',
+        content: 'Aperture is measured in f-stops: f/1.4 = wide open = bright + shallow depth of field (blurry background). f/11 = narrow = darker + sharp front-to-back. For portraits, use f/1.4–f/2.8. For landscapes where you want everything sharp, use f/8–f/11.',
+        tip: 'Counter-intuitive: a smaller f-number means a WIDER aperture and more light.',
+      },
+      {
+        type: 'info',
+        content: 'ISO measures sensor sensitivity: ISO 100–400 = clean and low-noise, ideal in good light. ISO 3200+ = bright but grainy/noisy. Modern mirrorless cameras are incredible at high ISO — many produce clean, usable images at ISO 6400 and beyond. But always start as low as possible and raise only when you need to.',
+      },
+      {
+        type: 'quiz',
+        content: 'You\'re shooting at 24fps video outdoors. Per the 180-degree rule, your shutter speed should be double your frame rate. What shutter speed is correct?',
+        options: [
+          '1/24s',
+          '1/48s — approximately 1/50s',
+          '1/1000s',
+          '1/100s',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'when-to-use',
+        content: 'The exposure triangle is the foundation of everything. Internalize it and the camera becomes an extension of your eye.',
+        scenarios: [
+          'Portraits: wide aperture (f/1.4–2.8) for background separation',
+          'Landscapes: narrow aperture (f/8–11) for front-to-back sharpness',
+          'Action/sports: fast shutter (1/500s+) to freeze motion',
+          'Night photography: low ISO + wide aperture + tripod for clean long exposures',
+          'Video: follow the 180-degree rule for natural motion blur',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'pro-autofocus',
+    title: 'Mastering Autofocus',
+    description: 'Modern pro cameras have jaw-dropping autofocus — Eye AF, subject tracking, burst mode. Here\'s how to use all of it.',
+    category: 'pro-camera',
+    difficulty: 'intermediate',
+    xpReward: 100,
+    estimatedMinutes: 5,
+    steps: [
+      {
+        type: 'info',
+        content: 'Your professional camera has Eye AF — it detects and locks onto human (or animal) eyes automatically, even mid-burst. This technology that used to cost tens of thousands of dollars is now in your hands. Enable it in your focus or subject recognition menu and prepare to be amazed.',
+        tip: 'Look for "Subject Recognition," "Eye Detection," or "Face/Eye AF" in your camera\'s focus menu. Sony, Canon, and Nikon all have it.',
+      },
+      {
+        type: 'info',
+        content: 'AF-S (Single-shot AF): focuses once when you half-press the shutter, then locks. Best for still subjects — product shots, architecture, posed portraits. AF-C (Continuous AF): constantly adjusts focus as the subject moves. Essential for any moving subject.',
+      },
+      {
+        type: 'quiz',
+        content: 'You\'re shooting a wedding — the couple is walking toward you during their first dance. Which AF mode gives you the sharpest results?',
+        options: [
+          'AF-S — single shot is more accurate',
+          'Manual focus for full control',
+          'AF-C with subject tracking — it follows them as they move closer',
+          'Leave it on auto and hope for the best',
+        ],
+        correct: 2,
+      },
+      {
+        type: 'info',
+        content: 'Most pro cameras let you assign Subject Tracking to a custom button. Press it, place the box on your subject, and the camera locks on and chases them through the frame. Pair this with AF-C and Eye AF and you have a focus system that was science fiction just a few years ago — use it.',
+        tip: 'Check your camera\'s custom button settings. Assigning Eye AF or Subject Tracking to a thumb button is a game-changer.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'The right AF mode for the right situation makes the difference between keeper and trash.',
+        scenarios: [
+          'Eye AF: portraits, headshots, any shot with a person as subject',
+          'AF-C + tracking: sports, weddings, children, pets, any unpredictable movement',
+          'AF-S: product photography, architecture, still life, landscape',
+          'Manual focus: macro, astrophotography, shooting through glass, creative pulls',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'pro-slog',
+    title: 'S-Log & Picture Profiles',
+    description: 'Capture up to 15 stops of dynamic range for professional color grading in post.',
+    category: 'pro-camera',
+    difficulty: 'advanced',
+    xpReward: 125,
+    estimatedMinutes: 6,
+    steps: [
+      {
+        type: 'info',
+        content: 'Your pro camera has a secret weapon hidden in its menu: flat, log-encoded video profiles. Standard profiles deliver a "finished" look in-camera. Log profiles (S-Log, C-Log, N-Log) capture flat footage with massive dynamic range — shadows and highlights the standard mode simply throws away — designed to be color graded in post.',
+        tip: 'Log footage looks washed out and gray on your monitor. That\'s correct — it\'s raw material, like an undeveloped film negative. The magic happens in editing.',
+      },
+      {
+        type: 'info',
+        content: 'Log profiles by brand: S-Log2 / S-Log3 (Sony), C-Log / C-Log3 (Canon), N-Log (Nikon). They all do the same thing — capture a flat, wide-dynamic-range image for grading. The "3" variants generally preserve more shadow detail and are preferred by colorists. All of them give you roughly 14–15 stops of dynamic range vs ~10 in standard mode.',
+      },
+      {
+        type: 'quiz',
+        content: 'You transferred your S-Log3 footage to your laptop and it looks completely gray and flat. What should you do?',
+        options: [
+          'Something went wrong — re-shoot with a standard profile',
+          'Apply a LUT (Look-Up Table) or color grade it in your editing software — the flat look is correct',
+          'Increase the saturation slider all the way in-camera',
+          'Check your camera manual — look for "Picture Profile," "Log," or "Canon Log/N-Log" in the video settings',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'For run-and-gun or social media content where you won\'t color grade: use PP6 (BT.709 Gamma) — it produces a clean, neutral, slightly cinematic look straight out of camera. Looks great with minimal editing. S-Log is for projects where you have real color grading time.',
+        tip: 'DaVinci Resolve (free) is the industry standard for color grading log footage. Every major camera brand publishes free LUTs for their log formats.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'Choose your profile before you shoot — switching in post is not an option.',
+        scenarios: [
+          'S-Log3: commercial work, films, branded content, anything with serious post-production',
+          'S-Log3: high-contrast outdoor scenes where highlights and shadows both matter',
+          'PP6 (BT.709): fast-turnaround social content, events, news, documentary run-and-gun',
+          'Standard profiles: family videos, quick content, anything shot-and-uploaded same day',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'pro-frame-rates',
+    title: 'Frame Rates for Video',
+    description: 'Choose the right fps for cinematic storytelling, smooth b-roll, and dramatic slow-motion.',
+    category: 'pro-camera',
+    difficulty: 'beginner',
+    xpReward: 75,
+    estimatedMinutes: 4,
+    steps: [
+      {
+        type: 'info',
+        content: 'Frame rate determines how smooth or cinematic your footage looks — and whether you can slow it down in post. Your professional camera almost certainly shoots 4K at 60fps and 1080p at 120fps or higher. That\'s incredible capability. Different frame rates tell completely different stories.',
+        tip: 'Set your frame rate before shooting — you can\'t add or remove frames in post.',
+      },
+      {
+        type: 'info',
+        content: '24fps is the cinematic standard. Films have used it for nearly 100 years. At normal playback shutter speeds (1/50s), it has a slight natural motion blur that our brains associate with "movie." Use 24fps for any narrative, documentary, or content meant to feel like film.',
+      },
+      {
+        type: 'quiz',
+        content: 'You want dramatic slow-motion footage of a wave breaking that will play back at 24fps in your edit. What frame rate should you shoot at?',
+        options: [
+          '24fps — match your timeline frame rate',
+          '30fps — close enough to slow down',
+          '60fps or 120fps — gives you 2.5x or 5x slow playback at 24fps',
+          'Frame rate doesn\'t affect slow motion',
+        ],
+        correct: 2,
+      },
+      {
+        type: 'info',
+        content: '60fps looks sharp and modern — great for action, sports b-roll, or content that needs to look clean. Shot at 60fps and edited in a 24fps timeline, it plays back at 2.5x slow motion. 120fps gives you 5x slow-mo — incredible for splashes, sports moments, and dramatic pauses. Check your camera\'s video menu to see what slow-motion modes it offers.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'Frame rate is a storytelling choice, not just a technical one.',
+        scenarios: [
+          '24fps: narrative films, cinematic YouTube, documentaries, interviews',
+          '30fps: social media content, TV-style delivery, when clients specify 30fps',
+          '60fps: action sports, product demos, anything you\'ll slow down to 2.5x',
+          '120fps (1080p): dramatic slow-mo, water, fire, impact moments',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'pro-back-button-focus',
+    title: 'Back Button Focus',
+    description: 'The single camera setup change that professional photographers swear by.',
+    category: 'pro-camera',
+    difficulty: 'intermediate',
+    xpReward: 100,
+    estimatedMinutes: 5,
+    steps: [
+      {
+        type: 'info',
+        content: 'By default, half-pressing the shutter button activates autofocus AND takes the photo on full press. Back button focus separates these: a button on the back of the camera (AF-ON) activates focus, and the shutter button only takes the photo. No more accidental refocuses.',
+        tip: 'Look for an "AF-ON" button on the back of your camera — most pro mirrorless cameras have one. That\'s your new best friend.',
+      },
+      {
+        type: 'info',
+        content: 'This unlocks three major advantages: 1) Hold AF-ON to continuously track a moving subject. 2) Release AF-ON to instantly lock focus — great for pre-focusing on a spot and waiting. 3) Shoot bursts without the camera fighting to refocus between frames.',
+      },
+      {
+        type: 'quiz',
+        content: 'You\'re photographing birds at a feeder. You pre-focused on the feeder post. A bird lands. You want to shoot without the camera trying to refocus on the background behind the bird. With back button focus, what do you do?',
+        options: [
+          'Keep holding AF-ON while shooting',
+          'Release AF-ON — focus stays locked on where you pre-focused, shutter fires freely',
+          'Switch to manual focus before each shot',
+          'Use AF-S mode instead',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'Setup varies by brand, but the concept is the same: find the setting that disables autofocus from the shutter button (usually called "AF activation" or "AF w/ shutter"). Turn it off. Now the shutter only fires — your thumb controls focus. After two days it becomes completely natural and you will never go back.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'Back button focus is for every shoot — this is a camera setup, not a situational choice.',
+        scenarios: [
+          'Wildlife and sports: hold AF-ON to track, release to lock and wait',
+          'Street photography: pre-focus at a distance, shoot without delay',
+          'Portraits: lock focus on eyes, recompose without refocusing',
+          'Any burst shooting where the camera fights you on refocus',
+        ],
+      },
+    ],
+  },
+
+  // ── Gear ──────────────────────────────────────────────────────────────────
+  {
+    id: 'gear-tripod',
+    title: 'Tripods & Stability',
+    description: 'The most underrated upgrade in photography — and why a fluid head changes everything for video.',
+    category: 'gear',
+    difficulty: 'beginner',
+    xpReward: 75,
+    estimatedMinutes: 4,
+    steps: [
+      {
+        type: 'info',
+        content: 'A tripod eliminates camera shake entirely. Even the steadiest hands introduce micro-vibrations visible at slow shutter speeds, telephoto focal lengths, or in video. A tripod is the only piece of gear that improves 100% of your shots when you use it.',
+        tip: 'Hang your camera bag from the center column hook to lower the center of gravity and reduce vibration on windy days.',
+      },
+      {
+        type: 'info',
+        content: 'Two main head types: Ball head — quick to reposition, great for photography and flexible framing. Fluid head (video head) — has smooth drag resistance for controlled pans and tilts. If you shoot video, a fluid head is non-negotiable. Jerky pans on a ball head look amateurish.',
+      },
+      {
+        type: 'quiz',
+        content: 'You\'re setting up for a 20-minute sit-down interview and may need to slowly pan to follow hand gestures. Which tripod head is the right choice?',
+        options: [
+          'Ball head — faster to adjust',
+          'Fluid head — smooth drag makes pans look professional',
+          'It doesn\'t matter',
+          'No head needed — just balance the camera directly',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'Key specs: Max load (must exceed your heaviest camera + lens combo with safety margin), Minimum height (for ground-level and low angles), Maximum height (comfortable standing use), Weight (for travel and hiking). Carbon fiber = lightest, most expensive. Aluminum = heavy but affordable and durable.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'Any time image sharpness or stability matters — which is most of the time.',
+        scenarios: [
+          'Long exposures slower than 1/60s (essential)',
+          'Telephoto shots at 200mm+ where shake is amplified',
+          'Video interviews, sit-downs, and any locked-off shot',
+          'Product photography where you need repeatable framing',
+          'Astrophotography, milky way, and light painting',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'gear-nd-filters',
+    title: 'ND Filters: Sunglasses for Your Lens',
+    description: 'Control light without changing aperture — essential for video and bright-day portraiture.',
+    category: 'gear',
+    difficulty: 'intermediate',
+    xpReward: 100,
+    estimatedMinutes: 5,
+    steps: [
+      {
+        type: 'info',
+        content: 'An ND (Neutral Density) filter is a darkened piece of optical glass that screws onto the front of your lens. It reduces light entering the camera without affecting color or sharpness — allowing you to use wider apertures or slower shutter speeds than daylight would normally allow.',
+        tip: 'Always buy ND filters with a few extra millimeters — a step-up ring lets one filter work on multiple lens sizes.',
+      },
+      {
+        type: 'info',
+        content: 'ND strength is measured in stops: ND2 = 1 stop darker, ND8 = 3 stops, ND64 = 6 stops, ND1000 = 10 stops. A Variable ND filter lets you twist between a range (e.g., ND2–ND400) — perfect for video where you need to adjust quickly as clouds pass.',
+      },
+      {
+        type: 'quiz',
+        content: 'You\'re shooting video at 24fps. The 180-degree rule says your shutter should be 1/50s. Outdoors at midday, 1/50s overexposes everything even at ISO 100 and f/11. What\'s the solution?',
+        options: [
+          'Raise the frame rate to 60fps',
+          'Add an ND filter to reduce light so 1/50s gives proper exposure',
+          'Accept the overexposure and fix it in post',
+          'Switch to a higher f-stop beyond f/11',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'For photography, NDs open creative options: shoot portraits at f/1.4 in bright sun without blowing highlights. Create silky waterfall and ocean shots with a 2-second exposure in daylight. Use a 30-second exposure to erase tourists from a busy scene. The ND1000 ("10-stop ND") is the landscape photographer\'s secret weapon.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'ND filters solve problems that no other tool can.',
+        scenarios: [
+          'Video outdoors in sunlight — essential for proper 180-degree shutter rule',
+          'Outdoor portraits at wide aperture without blowing highlights',
+          'Long-exposure waterfalls, rivers, and oceans in daylight',
+          'Removing people from busy scenes with ultra-long exposures',
+          'Drone photography — most drones require NDs to shoot proper video exposure',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'gear-slider',
+    title: 'Camera Sliders',
+    description: 'Add cinematic motion to any shot — even a 3-inch slide transforms a static scene.',
+    category: 'gear',
+    difficulty: 'intermediate',
+    xpReward: 100,
+    estimatedMinutes: 5,
+    steps: [
+      {
+        type: 'info',
+        content: 'A slider is a rail system that glides your camera in a perfectly smooth, controlled path. The movement adds depth, parallax, and production value that no amount of color grading or editing can replicate. Even a slow 6-inch move transforms a static locked-off shot into something cinematic.',
+        tip: 'Move slower than you think. Most beginner slider shots move too fast — aim for 10–20 seconds to cross the full rail.',
+      },
+      {
+        type: 'info',
+        content: 'Three foundational slider moves: Reveal — slide to uncover new visual information. Parallel track — camera moves with the subject at the same speed. Push/pull — camera moves toward or away from the subject, changing perspective and intimacy.',
+      },
+      {
+        type: 'quiz',
+        content: 'You\'re filming a chef plating a dish on a table. You want to start wide and slowly move toward the dish as the final garnish goes on. What slider move is this?',
+        options: [
+          'Reveal',
+          'Parallel track',
+          'Push — camera moves toward the subject',
+          'Pull',
+        ],
+        correct: 2,
+      },
+      {
+        type: 'info',
+        content: 'Size guide: 60cm slider — portable, fits in a backpack, great for run-and-gun. 100cm slider — more dramatic moves, requires more setup space. Motorized heads (Edelkrone SliderPLUS, iFootage Shark Slider, Zeapon) automate the movement for perfectly repeatable, silky slides — and free you to monitor focus and exposure.',
+        tip: 'You can also get creative: tilt the slider vertically for dramatic rising/lowering moves, or at 45 degrees for a diagonal glide.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'A slider is the most cost-effective way to add professional production value.',
+        scenarios: [
+          'B-roll for any video production — even one slider shot per video elevates the whole piece',
+          'Interview setup shots and beauty b-roll',
+          'Product reveals and demos',
+          'Landscape and architecture establishing shots',
+          'Any scene that feels static and needs energy',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'gear-lighting',
+    title: '3-Point Lighting for Interviews',
+    description: 'The foundation of every professional interview, YouTube video, and studio portrait.',
+    category: 'gear',
+    difficulty: 'intermediate',
+    xpReward: 100,
+    estimatedMinutes: 6,
+    steps: [
+      {
+        type: 'info',
+        content: 'Three-point lighting uses three light sources to sculpt a subject with dimension and depth: the Key light (main, brightest), Fill light (reduces shadows), and Back light (separates subject from background). Together they eliminate flat, lifeless lighting and make any subject look professional.',
+      },
+      {
+        type: 'info',
+        content: 'Key light: place it roughly 45 degrees to one side and slightly above the subject\'s face, aimed down at about 30 degrees. This creates natural-looking shadows that give faces dimension. Use a softbox, large LED panel, or bounce it off a white wall/ceiling for a soft, flattering quality.',
+        tip: 'The larger the light source relative to your subject, the softer and more flattering the shadows.',
+      },
+      {
+        type: 'info',
+        content: 'Fill light: placed on the opposite side of the key, softer and dimmer (typically 50% of the key\'s intensity). It reduces — but doesn\'t eliminate — the shadows the key creates. No fill = dramatic, high-contrast look. Strong fill = flat, even look. A white foam board reflector works as a free fill light.',
+      },
+      {
+        type: 'quiz',
+        content: 'Your interview subject has a harsh dark shadow on the left side of their face. The key light is on the right. What is the most likely problem?',
+        options: [
+          'The key light is too bright',
+          'There is no fill light (or it is too weak) on the shadow side',
+          'The background is too bright',
+          'The camera white balance is wrong',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'when-to-use',
+        content: 'Three-point lighting is the default for any controlled shooting environment.',
+        scenarios: [
+          'Sit-down interviews and talking-head videos',
+          'YouTube content and podcast video',
+          'Product demonstrations with a presenter',
+          'Headshots and corporate portraits',
+          'Any interior scene where you control the lighting',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'gear-microphones',
+    title: 'Microphones & Audio Quality',
+    description: 'Viewers forgive bad video — bad audio kills a video immediately. Here\'s what to use and when.',
+    category: 'gear',
+    difficulty: 'beginner',
+    xpReward: 75,
+    estimatedMinutes: 5,
+    steps: [
+      {
+        type: 'info',
+        content: 'The built-in camera microphone is almost always the worst option: it\'s tiny, picks up wind, camera handling noise, and everything in the room equally. Upgrading your audio is the single change that most improves your video\'s perceived quality.',
+        tip: 'Viewers subconsciously judge production value by audio quality. Clean audio = professional. Echoey room audio = amateur.',
+      },
+      {
+        type: 'info',
+        content: 'Shotgun microphone: a long, narrow directional mic that rejects sound from the sides and rear, focusing on what\'s directly in front. Mount it on your camera hot shoe for documentary/run-and-gun, or hang it on a boom pole above and in front of the subject for controlled interviews.',
+      },
+      {
+        type: 'quiz',
+        content: 'You\'re shooting an outdoor interview next to a busy road. Traffic noise is coming from behind and to the sides of the subject. Which microphone type best handles this situation?',
+        options: [
+          'Built-in camera mic — always most convenient',
+          'Lavalier mic — clips to clothing',
+          'Shotgun mic — its directional pattern rejects side and rear noise',
+          'A wireless microphone placed at the roadside',
+        ],
+        correct: 2,
+      },
+      {
+        type: 'info',
+        content: 'Lavalier (lav) mic: a small clip-on microphone that attaches near the mouth on clothing. It follows the subject wherever they go and always stays the same distance from the mouth — consistent audio regardless of head movement. Wireless lavs (Rode Wireless GO II, DJI Mic) remove all cable constraints.',
+        tip: 'For best lav audio: clip it 6–8 inches below the chin, hide it under clothing if possible, and use a Rycote Overcovers windjammer to reduce clothing rustle.',
+      },
+      {
+        type: 'when-to-use',
+        content: 'Use the best mic you have — any external mic is better than the camera mic.',
+        scenarios: [
+          'Shotgun: documentary, events, run-and-gun, outdoor shooting, wildlife',
+          'Lav: interviews, YouTube, scripted video, anything requiring consistent audio',
+          'Use BOTH for important interviews: lav as primary, shotgun as backup',
+          'Boom operator + shotgun: scripted film and TV production',
+        ],
+      },
+    ],
+  },
 ];
 
 export const CATEGORIES: { id: LessonCategory; label: string; emoji: string; description: string }[] = [
@@ -990,7 +1699,20 @@ export const CATEGORIES: { id: LessonCategory; label: string; emoji: string; des
   { id: 'color', label: 'Color', emoji: '🎨', description: 'Use color intentionally' },
   { id: 'lighting', label: 'Lighting', emoji: '☀️', description: 'Master light in any situation' },
   { id: 'technique', label: 'Technique', emoji: '📷', description: 'Camera settings & skills' },
+  { id: 'iphone', label: 'iPhone', emoji: '📱', description: 'Get the most from your iPhone camera' },
+  { id: 'pro-camera', label: 'Pro Camera', emoji: '🎥', description: 'Master your mirrorless or DSLR' },
+  { id: 'gear', label: 'Gear', emoji: '🎒', description: 'Tripods, filters, sliders & more' },
 ];
+
+export const CORE_CATEGORIES: LessonCategory[] = ['composition', 'color', 'lighting', 'technique'];
+
+export function getCategoriesForCameraType(cameraTypes: ('iphone' | 'professional')[]) {
+  const extras: LessonCategory[] = [];
+  if (cameraTypes.includes('iphone')) extras.push('iphone');
+  if (cameraTypes.includes('professional')) extras.push('pro-camera', 'gear');
+  const ids: LessonCategory[] = [...CORE_CATEGORIES, ...extras];
+  return CATEGORIES.filter(c => ids.includes(c.id));
+}
 
 export function getLessonsByCategory(category: LessonCategory): Lesson[] {
   return LESSONS.filter(l => l.category === category);

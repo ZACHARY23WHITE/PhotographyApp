@@ -373,6 +373,15 @@ function LessonResult({
         >
           Keep learning →
         </button>
+        {lesson.practicePrompt && (
+          <button
+            onClick={() => router.push(`/practice/${lesson.id}`)}
+            className="w-full py-4 rounded-2xl font-bold text-base"
+            style={{ background: '#1B9AE4', color: '#fff', boxShadow: '0 4px 0 #1070BE' }}
+          >
+            Try it yourself →
+          </button>
+        )}
         <button
           onClick={() => router.push('/')}
           className="w-full py-3.5 rounded-2xl font-semibold text-sm"

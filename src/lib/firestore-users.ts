@@ -1,6 +1,8 @@
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 
+export type CameraType = 'iphone' | 'professional';
+
 export interface UserProfile {
   uid: string;
   displayName: string;
@@ -12,6 +14,9 @@ export interface UserProfile {
   lastActiveDate: string;
   interests: string[];
   completedLessons: string[];
+  practicedLessons: string[];
+  practiceXp: number;
+  cameraTypes: CameraType[];
   createdAt: unknown;
 }
 
@@ -33,12 +38,20 @@ const profileDefaults: Omit<UserProfile, 'uid' | 'createdAt'> = {
   lastActiveDate: '',
   interests: [],
   completedLessons: [],
+  practicedLessons: [],
+  practiceXp: 0,
+  cameraTypes: [],
 };
 
 export async function getUserProfile(uid: string): Promise<UserProfile | null> {
   const snap = await getDoc(doc(db, 'users', uid));
   if (!snap.exists()) return null;
-  return { ...profileDefaults, uid, ...snap.data() } as UserProfile;
+  const data = snap.data();
+  // Migrate legacy single cameraType field to array
+  if (data.cameraType && !data.cameraTypes) {
+    data.cameraTypes = [data.cameraType];
+  }
+  return { ...profileDefaults, uid, ...data } as UserProfile;
 }
 
 export async function createUserProfile(uid: string, data: Partial<UserProfile>): Promise<void> {
@@ -53,9 +66,14 @@ export async function createUserProfile(uid: string, data: Partial<UserProfile>)
     lastActiveDate: '',
     interests: data.interests ?? [],
     completedLessons: [],
+    cameraTypes: data.cameraTypes ?? [],
     createdAt: serverTimestamp(),
     ...data,
   });
+}
+
+export async function updateCameraTypes(uid: string, cameraTypes: CameraType[]): Promise<void> {
+  await updateDoc(doc(db, 'users', uid), { cameraTypes });
 }
 
 export async function completeLesson(uid: string, lessonId: string, xpReward: number): Promise<void> {

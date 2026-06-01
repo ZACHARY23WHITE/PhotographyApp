@@ -15,6 +15,17 @@ const tabs = [
     ),
   },
   {
+    href: '/toolbag',
+    label: 'Toolbag',
+    icon: (active: boolean) => (
+      <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 7V5.5A2.5 2.5 0 0 1 11.5 3h1A2.5 2.5 0 0 1 15 5.5V7" fill="none" />
+        <path d="M5 7h14a1 1 0 0 1 1 1v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a1 1 0 0 1 1-1z" fill={active ? 'currentColor' : 'none'} />
+        {!active && <line x1="8.5" y1="13" x2="15.5" y2="13" strokeWidth="1.5" />}
+      </svg>
+    ),
+  },
+  {
     href: '/profile',
     label: 'Profile',
     icon: (active: boolean) => (
