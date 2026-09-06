@@ -26,6 +26,18 @@ const CHAPTER_THEMES: Record<LessonCategory, { color: string; bg: string; shadow
   gear:         { color: '#10B981', bg: '#ECFDF5', shadow: '#0A8A61', tagline: 'Gear that elevates every shot' },
 };
 
+// Higgsfield-generated example photos, one per section — local assets so the
+// static-export / Capacitor bundle stays self-contained.
+const SECTION_IMAGE: Record<LessonCategory, string> = {
+  composition:  '/lessons/composition.jpg',
+  color:        '/lessons/color.jpg',
+  lighting:     '/lessons/lighting.jpg',
+  technique:    '/lessons/technique.jpg',
+  iphone:       '/lessons/iphone.jpg',
+  'pro-camera': '/lessons/pro-camera.jpg',
+  gear:         '/lessons/gear.jpg',
+};
+
 const NODE_SIZE = 64;
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -243,39 +255,65 @@ function ChapterRow({
 
   return (
     <div className="mb-6">
-      {/* Chapter header */}
-      <div className="px-5 mb-3 flex items-center gap-3">
+      {/* Chapter header — section photo band */}
+      <div className="px-5 mb-3">
         <div
           style={{
-            width: 42, height: 42, borderRadius: 12, flexShrink: 0,
-            background: theme.bg, boxShadow: `0 2px 0 ${theme.color}33`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22,
+            position: 'relative', height: 116, borderRadius: 18, overflow: 'hidden',
+            border: '1.5px solid var(--border)', boxShadow: 'var(--shadow-card)',
           }}
         >
-          {category.emoji}
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span style={{ fontSize: 15, fontWeight: 900, color: 'var(--foreground)' }}>{category.label}</span>
-            <span
-              style={{
-                fontSize: 11, fontWeight: 700, color: theme.color,
-                background: theme.bg, borderRadius: 99, padding: '1px 7px',
-              }}
-            >
-              {completedCount}/{lessons.length}
-            </span>
-          </div>
-          <p style={{ fontSize: 11, fontWeight: 600, color: '#8A9EAF', marginTop: 1 }}>{theme.tagline}</p>
-        </div>
-      </div>
-
-      {/* Progress bar */}
-      <div className="px-5 mb-3">
-        <div style={{ height: 5, borderRadius: 10, background: '#EEF4F9', overflow: 'hidden' }}>
-          <div
-            style={{ height: '100%', borderRadius: 10, width: `${pct}%`, background: theme.color, transition: 'width 0.6s ease' }}
+          <img
+            src={SECTION_IMAGE[category.id as LessonCategory]}
+            alt=""
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
           />
+          {/* Legibility scrim — darker on the left where the text sits */}
+          <div
+            style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(90deg, rgba(12,20,34,0.78) 0%, rgba(12,20,34,0.42) 52%, rgba(12,20,34,0.12) 100%)',
+            }}
+          />
+          {/* A whisper of the chapter color for cohesion */}
+          <div style={{ position: 'absolute', inset: 0, background: theme.color, opacity: 0.12, mixBlendMode: 'overlay' }} />
+
+          <div style={{ position: 'absolute', inset: 0, padding: 14, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div className="flex items-start justify-between">
+              <div
+                style={{
+                  width: 38, height: 38, borderRadius: 11, flexShrink: 0,
+                  background: 'rgba(255,255,255,0.92)', fontSize: 20,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.22)',
+                }}
+              >
+                {category.emoji}
+              </div>
+              <span
+                style={{
+                  fontSize: 11, fontWeight: 800, color: '#fff',
+                  background: 'rgba(255,255,255,0.22)', borderRadius: 99, padding: '3px 9px',
+                  backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)',
+                }}
+              >
+                {completedCount}/{lessons.length}
+              </span>
+            </div>
+            <div className="min-w-0">
+              <p className="font-display" style={{ fontSize: 19, fontWeight: 700, color: '#fff', lineHeight: 1.1, textShadow: '0 1px 6px rgba(0,0,0,0.45)' }}>
+                {category.label}
+              </p>
+              <p style={{ fontSize: 11.5, fontWeight: 600, color: 'rgba(255,255,255,0.92)', marginTop: 2, textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+                {theme.tagline}
+              </p>
+            </div>
+          </div>
+
+          {/* Progress rail pinned to the bottom edge */}
+          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 4, background: 'rgba(255,255,255,0.28)' }}>
+            <div style={{ height: '100%', width: `${pct}%`, background: theme.color, transition: 'width 0.6s ease' }} />
+          </div>
         </div>
       </div>
 
@@ -322,20 +360,27 @@ function GreetingCard({ displayName, xp, level }: { displayName: string; xp: num
 
   return (
     <div
-      className="mx-5 mb-4 rounded-[22px] overflow-hidden"
+      className="mx-5 mb-4 rounded-[22px] overflow-hidden relative"
       style={{
-        background: '#FFFFFF',
-        border: '1.5px solid var(--border)',
-        boxShadow: '0 2px 20px rgba(27,154,228,0.07), 0 1px 4px rgba(0,0,0,0.04)',
+        background: 'linear-gradient(135deg, #FFFFFF 0%, #FFF6EC 55%, #FFEEDC 100%)',
+        border: '1.5px solid #FFE0C2',
+        boxShadow: '0 6px 22px rgba(255,150,46,0.12), 0 1px 4px rgba(0,0,0,0.04)',
       }}
     >
-      <div className="flex items-end justify-between px-5 pt-5 pb-0">
+      {/* soft golden sun glow in the corner behind Phil */}
+      <div
+        style={{
+          position: 'absolute', top: -40, right: -30, width: 180, height: 180, borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(255,171,64,0.35) 0%, transparent 70%)', pointerEvents: 'none',
+        }}
+      />
+      <div className="flex items-end justify-between px-5 pt-5 pb-0 relative">
         <div className="flex-1 pb-5 min-w-0">
-          <p style={{ fontSize: 12.5, fontWeight: 700, color: '#8A9EAF', marginBottom: 3 }}>
+          <p style={{ fontSize: 12.5, fontWeight: 700, color: '#C87A2E', marginBottom: 3 }}>
             {getGreeting(displayName)}
           </p>
-          <p style={{ fontSize: 15.5, fontWeight: 800, color: 'var(--foreground)', lineHeight: 1.3, marginBottom: 12 }}>
-            Keep shooting. Keep growing.
+          <p className="font-display" style={{ fontSize: 20, fontWeight: 700, color: 'var(--foreground)', lineHeight: 1.15, marginBottom: 12 }}>
+            Keep shooting.<br />Keep growing.
           </p>
           <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 6 }}>
             Level {level} · {LEVEL_TITLES[level] ?? 'Legend'}
@@ -384,15 +429,16 @@ function ContinueButton({ lesson }: { lesson: Lesson }) {
         onPointerDown={press}
         onPointerUp={release}
         onPointerLeave={release}
-        className="flex items-center gap-3"
+        className="flex items-center gap-3 relative overflow-hidden"
         style={{
-          background: '#FF6B00',
+          background: 'linear-gradient(135deg, #FF7E1A 0%, #FF6B00 55%, #F25C00 100%)',
           borderRadius: 18,
           padding: '15px 18px',
           boxShadow: '0 5px 0 #C45200',
           transition: 'transform 80ms, box-shadow 80ms',
         }}
       >
+        <span className="sheen-overlay" />
         <div
           style={{
             width: 44, height: 44, borderRadius: 12, flexShrink: 0,
@@ -406,7 +452,7 @@ function ContinueButton({ lesson }: { lesson: Lesson }) {
           <p style={{ fontSize: 10, fontWeight: 800, color: 'rgba(255,255,255,0.75)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 2 }}>
             Continue Lesson
           </p>
-          <p className="truncate" style={{ fontSize: 16, fontWeight: 900, color: '#fff' }}>
+          <p className="truncate font-display" style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>
             {lesson.title}
           </p>
         </div>
@@ -451,7 +497,7 @@ function Header({ streak, displayName, photoURL }: { streak: number; displayName
             <circle cx="12" cy="13" r="4"/>
           </svg>
         </div>
-        <span style={{ fontSize: 21, fontWeight: 900, color: 'var(--foreground)', letterSpacing: '-0.02em' }}>shotly</span>
+        <span className="font-display" style={{ fontSize: 22, fontWeight: 700, color: 'var(--foreground)', letterSpacing: '-0.02em' }}>shotly</span>
       </div>
 
 
@@ -608,7 +654,7 @@ export default function HomePage() {
 
           {/* Desktop: section heading */}
           <div className="hidden sm:block px-5 mb-5">
-            <h1 style={{ fontSize: 20, fontWeight: 900, color: 'var(--foreground)' }}>Your Journey</h1>
+            <h1 className="font-display" style={{ fontSize: 22, fontWeight: 700, color: 'var(--foreground)' }}>Your Journey</h1>
             <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 2 }}>
               {completedCount} / {LESSONS.length} lessons complete
             </p>

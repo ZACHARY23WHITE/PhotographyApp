@@ -8,6 +8,7 @@ export interface LessonStep {
   options?: string[];
   correct?: number;
   illustration?: string;
+  image?: string;
   scenarios?: string[];
 }
 
@@ -26,6 +27,42 @@ export interface Lesson {
 export const LESSONS: Lesson[] = [
   // ── Composition ──────────────────────────────────────────────────────────
   {
+    id: 'composition-intro',
+    title: 'What Is Composition?',
+    description: 'The big idea behind every great photo — and why it matters more than your camera.',
+    category: 'composition',
+    difficulty: 'beginner',
+    xpReward: 50,
+    estimatedMinutes: 2,
+    steps: [
+      {
+        type: 'info',
+        image: '/lessons/composition.jpg',
+        content: 'Composition is simply how you arrange the elements inside your frame — where you place your subject, what you include, and what you leave out. It\'s the difference between a random snapshot and a photo that makes people stop and stare. And the best part? It costs nothing and works on any camera.',
+        tip: 'You don\'t need expensive gear to compose well. Composition is a skill, not a purchase.',
+      },
+      {
+        type: 'info',
+        content: 'Why does it matter so much? Because a great subject in a messy frame still makes a weak photo — while a simple subject, framed intentionally, can be unforgettable. Composition is how you guide the viewer\'s eye and tell them what to feel. Master this and everything else gets easier.',
+      },
+      {
+        type: 'quiz',
+        content: 'What does "composition" really refer to in photography?',
+        options: [
+          'The brand of camera you shoot with',
+          'How the elements are arranged within the frame',
+          'How many megapixels your photo has',
+          'The editing filter you apply afterward',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'In this section you\'ll learn the classic tools pros use every day — the rule of thirds, leading lines, framing, negative space, symmetry and more. Think of them as ingredients: once you know them, you\'ll mix and match them instinctively. Let\'s dive in!',
+      },
+    ],
+  },
+  {
     id: 'rule-of-thirds',
     title: 'Rule of Thirds',
     description: 'The single most powerful composition rule — and the fastest way to make every shot stronger.',
@@ -36,6 +73,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/rule-of-thirds.jpg',
         content: 'The Rule of Thirds divides your frame into a 3×3 grid with two horizontal and two vertical lines. This creates four intersection points called "power points." This one rule will immediately make your photos more dynamic — you\'re going to love what it does to your shots!',
         tip: 'Most cameras and phones have a grid overlay in the viewfinder. Turn it on — it\'s a total game changer.',
         illustration: 'rule-of-thirds',
@@ -95,6 +133,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/leading-lines.jpg',
         content: 'Leading lines are natural or man-made lines that draw the viewer\'s eye toward your subject. Roads, rivers, fences, bridges, train tracks, staircases — these are all classic examples. Once you start seeing them, you\'ll spot leading lines everywhere you go!',
         illustration: 'leading-lines',
       },
@@ -154,6 +193,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/framing.jpg',
         content: 'Natural framing means using elements in the environment — archways, trees, windows, doorways — to create a "frame within a frame" around your subject. It\'s one of those techniques that makes people ask "how did you see that?" — and you\'re about to learn exactly how.',
         illustration: 'natural-framing',
       },
@@ -213,6 +253,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/negative-space.jpg',
         content: 'Negative space is the empty area around your subject. When used intentionally, it creates a sense of isolation, scale, calm, or freedom — and makes the subject stand out dramatically. Here\'s the secret: empty space isn\'t wasted space. It\'s one of the most powerful tools in your kit.',
         illustration: 'negative-space',
       },
@@ -269,6 +310,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/symmetry.jpg',
         content: 'Symmetry in photography means both halves of your frame mirror each other. It creates balance, harmony, and calm that\'s immediately satisfying to look at. Here\'s the exciting part: once you start looking for symmetry, you\'ll find it everywhere — buildings, hallways, tunnels, and nature are full of it.',
       },
       {
@@ -328,6 +370,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/fill-the-frame.jpg',
         content: 'Most beginners shoot too far away from their subject. Filling the frame means getting close — really close — so your subject takes up most or all of the image. The result? More powerful, intimate, undeniable photos. You\'ll be amazed how much better your shots get just by taking a few steps forward.',
       },
       {
@@ -386,6 +429,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/golden-ratio.jpg',
         content: 'The Golden Ratio (also called the Fibonacci Spiral or Phi) is a proportion found throughout nature — seashells, flowers, galaxies, even the human face. Artists and architects have used it for thousands of years to create work that feels naturally beautiful. And now you can use it in your photography. How cool is that?',
       },
       {
@@ -444,6 +488,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/rule-of-odds.jpg',
         content: 'Here\'s a fun one: groups of odd numbers (3, 5, 7) are more visually pleasing than even numbers. Why? With an even number of subjects, your eye bounces between them unsure which is "the" subject. With an odd number, there\'s a natural center that anchors the composition. You\'ll never look at a group of things the same way again!',
       },
       {
@@ -502,6 +547,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/depth-and-layers.jpg',
         content: 'Photos are 2D — but great photographers make them feel 3D. The secret is layering: placing interesting elements in the foreground, midground, and background. Think of your frame not as a flat wall, but as a stage with depth you\'re inviting the viewer to walk through.',
       },
       {
@@ -560,6 +606,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/viewpoint.jpg',
         content: 'Most people shoot from standing eye level — and honestly, it\'s the most boring angle available. Changing your viewpoint is the fastest, cheapest, most effective upgrade you can make to your photography. Get low. Get high. Step to the side. You will be amazed at what you find — and your photos are about to prove it.',
       },
       {
@@ -619,6 +666,7 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/diagonal-composition.jpg',
         content: 'Horizontal lines feel calm. Vertical lines feel stable. But diagonal lines? They feel dynamic, energetic, full of movement. Diagonal composition is one of the most powerful tools for creating tension and excitement — it makes even still photos feel like they\'re in motion.',
       },
       {
@@ -669,6 +717,42 @@ export const LESSONS: Lesson[] = [
   },
 
   // ── Color ────────────────────────────────────────────────────────────────
+  {
+    id: 'color-intro',
+    title: 'Why Color Matters',
+    description: 'Color is emotion — learn to see it before you learn to control it.',
+    category: 'color',
+    difficulty: 'beginner',
+    xpReward: 50,
+    estimatedMinutes: 2,
+    steps: [
+      {
+        type: 'info',
+        image: '/lessons/color.jpg',
+        content: 'Color is one of the most powerful tools you have for setting mood. Warm colors — reds, oranges, yellows — feel energetic, cozy, and inviting. Cool colors — blues and greens — feel calm, distant, or moody. Before a viewer reads anything in your photo, they already feel its color.',
+      },
+      {
+        type: 'info',
+        content: 'Color also guides the eye and creates relationships. A single pop of red in a sea of green pulls attention instantly. Understanding which colors clash, which harmonize, and how "temperature" shifts a whole scene lets you shoot with intention instead of luck.',
+        tip: 'Squint at a scene — details fade and the color relationships pop out. It\'s a pro trick for reading color fast.',
+      },
+      {
+        type: 'quiz',
+        content: 'Warm colors like red and orange most often make a photo feel...?',
+        options: [
+          'Calm and distant',
+          'Energetic, cozy, and inviting',
+          'Sad and empty',
+          'Sharp and detailed',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'Coming up you\'ll learn color temperature, complementary colors, and color harmony — the essentials that make your images feel deliberate and alive. Ready to see the world in color?',
+      },
+    ],
+  },
   {
     id: 'color-temperature',
     title: 'Color Temperature',
@@ -806,6 +890,42 @@ export const LESSONS: Lesson[] = [
 
   // ── Lighting ─────────────────────────────────────────────────────────────
   {
+    id: 'lighting-intro',
+    title: 'What Is Lighting?',
+    description: 'The word "photography" literally means "drawing with light" — here\'s why it\'s everything.',
+    category: 'lighting',
+    difficulty: 'beginner',
+    xpReward: 50,
+    estimatedMinutes: 2,
+    steps: [
+      {
+        type: 'info',
+        image: '/lessons/lighting.jpg',
+        content: 'Light is the raw material of every photograph. Without it there\'s no image at all — the word "photography" comes from the Greek for "drawing with light." Learning to see light is the single biggest leap most photographers ever make.',
+        tip: 'Great light can make an ordinary subject stunning; bad light can ruin a beautiful one. Chase the light first.',
+      },
+      {
+        type: 'info',
+        content: 'Three things about light matter most: its direction (where it comes from), its quality (soft and flattering vs. hard and dramatic), and its color (warm sunset vs. cool shade). Once you start noticing these, you\'ll plan your shots around light instead of fighting it.',
+      },
+      {
+        type: 'quiz',
+        content: 'Which of these has the biggest impact on the mood of a photo?',
+        options: [
+          'The number of photos you take',
+          'The quality and direction of the light',
+          'The color of your camera strap',
+          'How fast you press the shutter',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'In this section you\'ll master golden hour and the exposure basics that let you capture light exactly the way your eye sees it. Let\'s go chase some light!',
+      },
+    ],
+  },
+  {
     id: 'golden-hour',
     title: 'Golden Hour',
     description: 'Shoot in the best light of the day, every time.',
@@ -904,6 +1024,42 @@ export const LESSONS: Lesson[] = [
 
   // ── Technique ────────────────────────────────────────────────────────────
   {
+    id: 'technique-intro',
+    title: 'What Is Technique?',
+    description: 'The camera controls that turn what you see into the image you actually want.',
+    category: 'technique',
+    difficulty: 'beginner',
+    xpReward: 50,
+    estimatedMinutes: 2,
+    steps: [
+      {
+        type: 'info',
+        image: '/lessons/technique.jpg',
+        content: 'Technique is the mechanical craft of photography — the settings and skills that control how your camera captures a scene. It\'s how you decide what\'s sharp, what\'s blurred, how bright the image is, and whether motion freezes or flows.',
+      },
+      {
+        type: 'info',
+        content: 'Why learn it? Because "Auto" mode guesses — and it often guesses wrong. When you understand depth of field, shutter speed, and exposure, you stop hoping for good photos and start creating them on purpose. This is where you take full control.',
+        tip: 'You don\'t need to master everything at once. Learn one control at a time and practice it.',
+      },
+      {
+        type: 'quiz',
+        content: 'What is "technique" mainly about in photography?',
+        options: [
+          'Choosing the right caption for your post',
+          'Controlling how the camera captures the scene',
+          'Owning the most expensive lens',
+          'Standing very still',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'Ahead you\'ll learn depth of field and how to capture motion — two skills that unlock a huge range of creative looks. Time to take the wheel!',
+      },
+    ],
+  },
+  {
     id: 'depth-of-field',
     title: 'Depth of Field',
     description: 'Control what\'s in focus and what\'s beautifully blurred.',
@@ -997,6 +1153,42 @@ export const LESSONS: Lesson[] = [
   },
 
   // ── iPhone ────────────────────────────────────────────────────────────────
+  {
+    id: 'iphone-intro',
+    title: 'Your iPhone Is a Real Camera',
+    description: 'Why the camera in your pocket is far more powerful than you think.',
+    category: 'iphone',
+    difficulty: 'beginner',
+    xpReward: 50,
+    estimatedMinutes: 2,
+    steps: [
+      {
+        type: 'info',
+        image: '/lessons/iphone.jpg',
+        content: 'The best camera is the one you have with you — and for most people, that\'s an iPhone. Modern phones use "computational photography," blending several exposures in a fraction of a second to produce images that rivaled pro cameras just a few years ago. Never underestimate it!',
+      },
+      {
+        type: 'info',
+        content: 'But the magic isn\'t fully automatic — knowing a few features unlocks dramatically better shots. Tap-to-focus, Portrait mode, Night mode, ProRAW, and Cinematic mode each hand you creative control that most people never touch.',
+        tip: 'The camera you already own can go much further than Auto. It\'s all about knowing which buttons to press.',
+      },
+      {
+        type: 'quiz',
+        content: 'What makes modern iPhone cameras so capable?',
+        options: [
+          'They have the largest sensors in the world',
+          'Computational photography that blends multiple exposures',
+          'They only work in bright sunlight',
+          'They always require a tripod',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'In this section you\'ll learn to use each of these features so your everyday shots start looking intentional and pro. Your pocket just got a lot more powerful!',
+      },
+    ],
+  },
   {
     id: 'iphone-tap-focus',
     title: 'Tap to Focus & Lock Exposure',
@@ -1231,6 +1423,42 @@ export const LESSONS: Lesson[] = [
 
   // ── Pro Camera ────────────────────────────────────────────────────────────
   {
+    id: 'pro-camera-intro',
+    title: 'Why Shoot on a Pro Camera?',
+    description: 'What a mirrorless or DSLR gives you that a phone can\'t — and why "Auto" is holding you back.',
+    category: 'pro-camera',
+    difficulty: 'beginner',
+    xpReward: 50,
+    estimatedMinutes: 2,
+    steps: [
+      {
+        type: 'info',
+        image: '/lessons/pro-camera.jpg',
+        content: 'A dedicated camera gives you a bigger sensor, interchangeable lenses, and total manual control. That means better low-light performance, richer depth of field, and image quality you can push hard in editing. It\'s a creative toolkit — not just a nicer phone.',
+      },
+      {
+        type: 'info',
+        content: 'The catch: to unlock all of that, you have to get off Auto. The exposure triangle, autofocus modes, picture profiles like S-Log, and frame rates are where the real power lives — and they\'re far more approachable than they look.',
+        tip: 'A pro camera left in Auto is just a big phone. The magic starts in Manual.',
+      },
+      {
+        type: 'quiz',
+        content: 'What\'s the main advantage of a dedicated camera over a phone?',
+        options: [
+          'It\'s always lighter and smaller',
+          'A bigger sensor, lenses, and full manual control',
+          'It never needs charging',
+          'It automatically posts to social media',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'Coming up you\'ll master the exposure triangle, autofocus, S-Log, frame rates, and back-button focus — the core skills of every pro shooter. Let\'s take the training wheels off!',
+      },
+    ],
+  },
+  {
     id: 'pro-exposure-triangle',
     title: 'The Exposure Triangle',
     description: 'Aperture, ISO, and shutter speed — master all three and exposure becomes second nature.',
@@ -1461,6 +1689,42 @@ export const LESSONS: Lesson[] = [
   },
 
   // ── Gear ──────────────────────────────────────────────────────────────────
+  {
+    id: 'gear-intro',
+    title: 'What Gear Actually Matters',
+    description: 'Gear won\'t make you a better photographer — but the right tool at the right time helps.',
+    category: 'gear',
+    difficulty: 'beginner',
+    xpReward: 50,
+    estimatedMinutes: 2,
+    steps: [
+      {
+        type: 'info',
+        image: '/lessons/gear.jpg',
+        content: 'Here\'s the truth most gear reviews won\'t tell you: equipment doesn\'t make the photo — you do. But the right tool solves a specific problem. A tripod steadies long exposures, an ND filter tames bright light, a good mic fixes bad audio. Buy to solve a problem, not to chase specs.',
+      },
+      {
+        type: 'info',
+        content: 'Understanding what each piece of gear actually does saves you money and frustration. You\'ll learn when a tool genuinely levels up your work — and when the camera or phone you already own is more than enough.',
+        tip: 'The most valuable "gear" you own is your own skill. Learn first, buy second.',
+      },
+      {
+        type: 'quiz',
+        content: 'What\'s the smartest way to think about buying gear?',
+        options: [
+          'Always buy the most expensive option',
+          'Buy a tool to solve a specific problem you actually have',
+          'Buy whatever influencers recommend',
+          'Never use any gear at all',
+        ],
+        correct: 1,
+      },
+      {
+        type: 'info',
+        content: 'In this section you\'ll learn about tripods, ND filters, sliders, lighting, and microphones — and exactly when each one earns its place in your bag. Let\'s pack smart!',
+      },
+    ],
+  },
   {
     id: 'gear-tripod',
     title: 'Tripods & Stability',

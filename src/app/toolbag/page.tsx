@@ -37,6 +37,56 @@ const TOOL_ICONS: Record<string, React.ReactNode> = {
       <circle cx="12" cy="10" r="2" fill="#FF6B00" stroke="none" />
     </svg>
   ),
+  'aspect-ratio': (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#FF6B00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="7" width="18" height="18" rx="2" />
+      <rect x="12" y="12" width="17" height="13" rx="2" fill="#FFF4EE" />
+    </svg>
+  ),
+  'shutter-speed': (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1B9AE4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="16" cy="16" r="12" />
+      {[0, 60, 120, 180, 240, 300].map((deg, i) => {
+        const a = (deg - 90) * Math.PI / 180;
+        return <line key={i} x1={16 + 5 * Math.cos(a)} y1={16 + 5 * Math.sin(a)} x2={16 + 11 * Math.cos(a)} y2={16 + 11 * Math.sin(a)} />;
+      })}
+      <circle cx="16" cy="16" r="3.5" fill="#1B9AE4" stroke="none" />
+    </svg>
+  ),
+  'color-temperature': (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <defs>
+        <linearGradient id="ctIcon" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#FF8A3D" />
+          <stop offset="50%" stopColor="#FFF3E0" />
+          <stop offset="100%" stopColor="#6FB4FF" />
+        </linearGradient>
+      </defs>
+      <rect x="4" y="12" width="24" height="8" rx="4" fill="url(#ctIcon)" />
+      <circle cx="16" cy="16" r="6" fill="none" stroke="#F5A623" strokeWidth="2" />
+    </svg>
+  ),
+  'light-direction': (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <circle cx="19" cy="17" r="8" fill="#F5A623" opacity="0.25" />
+      <path d="M19 9 a8 8 0 0 1 0 16 z" fill="#F5A623" opacity="0.85" />
+      <circle cx="19" cy="17" r="8" fill="none" stroke="#F5A623" strokeWidth="2" />
+      <circle cx="8" cy="8" r="3" fill="#FFD34D" />
+      {[0, 90, 180, 270].map((deg, i) => {
+        const a = deg * Math.PI / 180;
+        return <line key={i} x1={8 + 4 * Math.cos(a)} y1={8 + 4 * Math.sin(a)} x2={8 + 6 * Math.cos(a)} y2={8 + 6 * Math.sin(a)} stroke="#FFD34D" strokeWidth="1.6" strokeLinecap="round" />;
+      })}
+    </svg>
+  ),
+  'golden-hour': (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#F5A623" strokeWidth="2" strokeLinecap="round">
+      <line x1="4" y1="23" x2="28" y2="23" />
+      <path d="M9 23 a7 7 0 0 1 14 0" fill="#FDE68A" stroke="#F5A623" />
+      <line x1="16" y1="7" x2="16" y2="11" />
+      <line x1="6" y1="12" x2="8.5" y2="14" />
+      <line x1="26" y1="12" x2="23.5" y2="14" />
+    </svg>
+  ),
 };
 
 export default function ToolbagPage() {

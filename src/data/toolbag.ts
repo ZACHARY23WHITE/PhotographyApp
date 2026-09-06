@@ -26,6 +26,46 @@ export const TOOLBAG_ITEMS: ToolbagItem[] = [
     unlockLessons: ['rule-of-thirds'],
     unlockLabel: 'Complete Rule of Thirds',
   },
+  {
+    id: 'aspect-ratio',
+    title: 'Aspect Ratio Previewer',
+    description: 'See your frame as 1:1, 4:5, 16:9 and more — with the right crop for Instagram, print, or cinematic wide.',
+    category: 'composition',
+    href: '/toolbag/aspect-ratio',
+    unlockLessons: [],
+  },
+  {
+    id: 'shutter-speed',
+    title: 'Shutter Speed Guide',
+    description: 'Drag through shutter speeds and watch motion freeze or blur. Know exactly what speed to dial in for any scene.',
+    category: 'technique',
+    href: '/toolbag/shutter-speed',
+    unlockLessons: [],
+  },
+  {
+    id: 'color-temperature',
+    title: 'Color Temperature',
+    description: 'Slide the Kelvin scale from candlelight to open shade and see the warmth shift. Fix orange or blue photos fast.',
+    category: 'lighting',
+    href: '/toolbag/color-temperature',
+    unlockLessons: [],
+  },
+  {
+    id: 'light-direction',
+    title: 'Light Direction Studio',
+    description: 'Drag the light around a face and watch the shadows fall — front, side, Rembrandt, backlight, and more.',
+    category: 'lighting',
+    href: '/toolbag/light-direction',
+    unlockLessons: [],
+  },
+  {
+    id: 'golden-hour',
+    title: 'Golden Hour Clock',
+    description: "Today's sunrise, sunset, and the exact golden & blue hour windows for your spot — so you never miss the light.",
+    category: 'lighting',
+    href: '/toolbag/golden-hour',
+    unlockLessons: [],
+  },
 ];
 
 export const CATEGORY_COLORS: Record<string, { color: string; bg: string }> = {

@@ -56,10 +56,18 @@ export default function BottomNav() {
           <Link
             key={tab.href}
             href={tab.href}
-            className="flex flex-col items-center justify-center gap-1 flex-1 py-3 text-xs font-medium transition-colors"
-            style={{ color: active ? 'var(--secondary)' : 'var(--muted)' }}
+            className="flex flex-col items-center justify-center gap-1 flex-1 py-2.5 text-xs transition-colors"
+            style={{ color: active ? 'var(--secondary)' : 'var(--muted)', fontWeight: active ? 800 : 500 }}
           >
-            {tab.icon(active)}
+            <span
+              className="flex items-center justify-center transition-all"
+              style={{
+                width: 52, height: 30, borderRadius: 99,
+                background: active ? 'rgba(27,154,228,0.12)' : 'transparent',
+              }}
+            >
+              {tab.icon(active)}
+            </span>
             {tab.label}
           </Link>
         );

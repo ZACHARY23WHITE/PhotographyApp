@@ -75,10 +75,12 @@ function PhotoRuleOfThirds() {
       {/* ground — bottom 1/3 */}
       <rect y="134" width="320" height="66" fill="url(#ground)" />
 
-      {/* clouds */}
-      <ellipse cx="80" cy="45" rx="30" ry="14" fill="white" opacity="0.85" />
-      <ellipse cx="100" cy="38" rx="22" ry="13" fill="white" opacity="0.85" />
-      <ellipse cx="240" cy="55" rx="25" ry="11" fill="white" opacity="0.7" />
+      {/* clouds — gently drifting */}
+      <g className="animate-drift" style={{ animationDuration: '9s' }}>
+        <ellipse cx="80" cy="45" rx="30" ry="14" fill="white" opacity="0.85" />
+        <ellipse cx="100" cy="38" rx="22" ry="13" fill="white" opacity="0.85" />
+      </g>
+      <ellipse className="animate-drift" style={{ animationDuration: '11s' }} cx="240" cy="55" rx="25" ry="11" fill="white" opacity="0.7" />
 
       {/* tree / subject on left power point (x≈107) */}
       <rect x="101" y="70" width="12" height="65" fill="#713f12" rx="2" />
@@ -96,8 +98,9 @@ function PhotoRuleOfThirds() {
       <line x1="0" y1="67" x2="320" y2="67" stroke="white" strokeWidth="1" opacity="0.5" strokeDasharray="4,3" />
       <line x1="0" y1="134" x2="320" y2="134" stroke="white" strokeWidth="1" opacity="0.5" strokeDasharray="4,3" />
 
-      {/* power point dot on top-left intersection */}
-      <circle cx="107" cy="67" r="4" fill="white" opacity="0.9" />
+      {/* power point dot on top-left intersection — pulsing to draw the eye */}
+      <circle className="animate-glow" cx="107" cy="67" r="4" fill="white" />
+      <circle className="animate-glow" style={{ animationDelay: '0.4s' }} cx="107" cy="67" r="8" fill="none" stroke="white" strokeWidth="1.5" />
 
       {/* label */}
       <rect x="4" y="184" width="200" height="14" rx="3" fill="rgba(0,0,0,0.35)" />
@@ -140,8 +143,8 @@ function DoodleLeadingLines() {
       <rect x="52" y="90" width="83" height="86" fill="#86efac" />
       <rect x="185" y="90" width="83" height="86" fill="#86efac" />
 
-      {/* arrows showing eye path */}
-      <path d="M80,170 Q110,145 130,110 Q145,90 160,75" fill="none" stroke="#ef4444" strokeWidth="2" strokeDasharray="5,3" markerEnd="url(#arr)" />
+      {/* arrows showing eye path — dashes march toward the subject */}
+      <path className="animate-march" d="M80,170 Q110,145 130,110 Q145,90 160,75" fill="none" stroke="#ef4444" strokeWidth="2" strokeDasharray="5,3" markerEnd="url(#arr)" />
       <defs>
         <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
           <path d="M0,0 L6,3 L0,6 Z" fill="#ef4444" />
@@ -303,16 +306,18 @@ function DoodleNegativeSpace() {
       <text x="160" y="100" textAnchor="middle" fontFamily="'Patrick Hand', cursive, sans-serif" fontSize="11" fill="#94a3b8">empty space</text>
       <text x="160" y="114" textAnchor="middle" fontFamily="'Patrick Hand', cursive, sans-serif" fontSize="11" fill="#94a3b8">(on purpose!)</text>
 
-      {/* tiny bird in upper right power point area */}
-      {/* bird body */}
-      <ellipse cx="210" cy="68" rx="10" ry="6" fill="#1e293b" />
-      {/* wing */}
-      <path d="M204,65 Q200,56 208,62" fill="#1e293b" />
-      <path d="M216,65 Q222,56 214,62" fill="#1e293b" />
-      {/* tail */}
-      <path d="M200,68 L194,63 M200,68 L193,68 M200,68 L194,72" stroke="#1e293b" strokeWidth="1.5" strokeLinecap="round" />
-      {/* beak */}
-      <line x1="220" y1="67" x2="226" y2="66" stroke="#fbbf24" strokeWidth="2" strokeLinecap="round" />
+      {/* tiny bird in upper right power point area — drifting on the breeze */}
+      <g className="animate-bob" style={{ transformBox: 'fill-box', transformOrigin: 'center', animationDuration: '5s' }}>
+        {/* bird body */}
+        <ellipse cx="210" cy="68" rx="10" ry="6" fill="#1e293b" />
+        {/* wing */}
+        <path d="M204,65 Q200,56 208,62" fill="#1e293b" />
+        <path d="M216,65 Q222,56 214,62" fill="#1e293b" />
+        {/* tail */}
+        <path d="M200,68 L194,63 M200,68 L193,68 M200,68 L194,72" stroke="#1e293b" strokeWidth="1.5" strokeLinecap="round" />
+        {/* beak */}
+        <line x1="220" y1="67" x2="226" y2="66" stroke="#fbbf24" strokeWidth="2" strokeLinecap="round" />
+      </g>
 
       {/* annotation: tiny bird, huge sky = drama */}
       <path d="M215,80 Q220,100 215,116" fill="none" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="4,3" />
@@ -372,27 +377,18 @@ const ILLUSTRATIONS: Record<string, { Doodle: () => JSX.Element; Photo: () => JS
 export default function LessonIllustration({ id }: { id: string }) {
   const pair = ILLUSTRATIONS[id];
   if (!pair) return null;
-  const { Doodle, Photo } = pair;
+  const { Doodle } = pair;
 
+  // A real example photo renders beside this (via LessonStep.image), so the
+  // illustration serves purely as the concept diagram — no fake SVG "photo".
+  // Renders as a square card that fills its container to match the photo cell.
   return (
-    <div className="mb-4 space-y-3">
-      <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-2xl overflow-hidden" style={{ background: 'var(--surface)' }}>
-          <div className="px-3 pt-2 pb-1">
-            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--muted)' }}>Doodle</p>
-          </div>
-          <div className="aspect-[4/3]">
-            <Doodle />
-          </div>
-        </div>
-        <div className="rounded-2xl overflow-hidden" style={{ background: 'var(--surface)' }}>
-          <div className="px-3 pt-2 pb-1">
-            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--muted)' }}>Example</p>
-          </div>
-          <div className="aspect-[4/3]">
-            <Photo />
-          </div>
-        </div>
+    <div className="rounded-2xl overflow-hidden" style={{ background: 'var(--surface)', border: '1.5px solid var(--border)' }}>
+      <div className="px-3 pt-2 pb-1">
+        <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--muted)' }}>Diagram</p>
+      </div>
+      <div className="aspect-square">
+        <Doodle />
       </div>
     </div>
   );
