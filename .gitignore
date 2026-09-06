@@ -39,6 +39,9 @@ yarn-error.log*
 # firebase (local cache / emulator artifacts)
 .firebase/
 
+# native Firebase config — keep out of git like .env (stays on your machine)
+**/GoogleService-Info.plist
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
