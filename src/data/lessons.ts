@@ -311,6 +311,7 @@ export const LESSONS: Lesson[] = [
       {
         type: 'info',
         image: '/lessons/symmetry.jpg',
+        illustration: 'symmetry',
         content: 'Symmetry in photography means both halves of your frame mirror each other. It creates balance, harmony, and calm that\'s immediately satisfying to look at. Here\'s the exciting part: once you start looking for symmetry, you\'ll find it everywhere — buildings, hallways, tunnels, and nature are full of it.',
       },
       {
@@ -371,6 +372,7 @@ export const LESSONS: Lesson[] = [
       {
         type: 'info',
         image: '/lessons/fill-the-frame.jpg',
+        illustration: 'fill-the-frame',
         content: 'Most beginners shoot too far away from their subject. Filling the frame means getting close — really close — so your subject takes up most or all of the image. The result? More powerful, intimate, undeniable photos. You\'ll be amazed how much better your shots get just by taking a few steps forward.',
       },
       {
@@ -430,6 +432,7 @@ export const LESSONS: Lesson[] = [
       {
         type: 'info',
         image: '/lessons/golden-ratio.jpg',
+        illustration: 'golden-ratio',
         content: 'The Golden Ratio (also called the Fibonacci Spiral or Phi) is a proportion found throughout nature — seashells, flowers, galaxies, even the human face. Artists and architects have used it for thousands of years to create work that feels naturally beautiful. And now you can use it in your photography. How cool is that?',
       },
       {
@@ -489,6 +492,7 @@ export const LESSONS: Lesson[] = [
       {
         type: 'info',
         image: '/lessons/rule-of-odds.jpg',
+        illustration: 'rule-of-odds',
         content: 'Here\'s a fun one: groups of odd numbers (3, 5, 7) are more visually pleasing than even numbers. Why? With an even number of subjects, your eye bounces between them unsure which is "the" subject. With an odd number, there\'s a natural center that anchors the composition. You\'ll never look at a group of things the same way again!',
       },
       {
@@ -548,6 +552,7 @@ export const LESSONS: Lesson[] = [
       {
         type: 'info',
         image: '/lessons/depth-and-layers.jpg',
+        illustration: 'depth-and-layers',
         content: 'Photos are 2D — but great photographers make them feel 3D. The secret is layering: placing interesting elements in the foreground, midground, and background. Think of your frame not as a flat wall, but as a stage with depth you\'re inviting the viewer to walk through.',
       },
       {
@@ -607,6 +612,7 @@ export const LESSONS: Lesson[] = [
       {
         type: 'info',
         image: '/lessons/viewpoint.jpg',
+        illustration: 'viewpoint',
         content: 'Most people shoot from standing eye level — and honestly, it\'s the most boring angle available. Changing your viewpoint is the fastest, cheapest, most effective upgrade you can make to your photography. Get low. Get high. Step to the side. You will be amazed at what you find — and your photos are about to prove it.',
       },
       {
@@ -667,6 +673,7 @@ export const LESSONS: Lesson[] = [
       {
         type: 'info',
         image: '/lessons/diagonal-composition.jpg',
+        illustration: 'diagonal-composition',
         content: 'Horizontal lines feel calm. Vertical lines feel stable. But diagonal lines? They feel dynamic, energetic, full of movement. Diagonal composition is one of the most powerful tools for creating tension and excitement — it makes even still photos feel like they\'re in motion.',
       },
       {
@@ -764,6 +771,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/color-temperature.jpg',
+        illustration: 'color-temperature',
         content: 'Color temperature describes whether light looks warm (orange/yellow) or cool (blue). It\'s measured in Kelvin (K). Lower Kelvin = warmer. Higher Kelvin = cooler.',
         tip: 'Candlelight is ~1800K (very warm). Overcast sky is ~7000K (cool blue).',
       },
@@ -810,6 +819,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/complementary-colors.jpg',
+        illustration: 'complementary-colors',
         content: 'Complementary colors sit directly opposite each other on the color wheel. Common pairs: Red & Green, Blue & Orange, Yellow & Purple. Placing them together creates high contrast and visual energy.',
       },
       {
@@ -852,6 +863,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/color-harmony.jpg',
+        illustration: 'color-harmony',
         content: 'Color harmony means choosing colors in your photo that work well together. The main types: Analogous (colors next to each other — calming), Complementary (opposite — bold), Triadic (three evenly spaced — vibrant).',
       },
       {
@@ -936,6 +949,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/golden-hour.jpg',
+        illustration: 'golden-hour',
         content: 'Golden Hour refers to the period shortly after sunrise and just before sunset. The sun is low, casting soft, warm, directional light that is flattering for almost any subject.',
       },
       {
@@ -982,6 +997,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/exposure-basics.jpg',
+        illustration: 'exposure-basics',
         content: 'Exposure is how much light hits your camera sensor. It\'s controlled by three settings called the Exposure Triangle: ISO, Aperture, and Shutter Speed.',
       },
       {
@@ -1070,6 +1087,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/depth-of-field.jpg',
+        illustration: 'depth-of-field',
         content: 'Depth of Field (DoF) refers to the range of distance in a photo that appears acceptably sharp. A shallow DoF isolates your subject (blurry background). A deep DoF keeps everything sharp.',
       },
       {
@@ -1116,6 +1135,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/capturing-motion.jpg',
+        illustration: 'capturing-motion',
         content: 'Shutter speed is your tool for motion. A fast shutter (1/500s or faster) freezes a moving subject sharply. A slow shutter (1/30s or slower) creates a motion blur effect.',
       },
       {
@@ -1200,6 +1221,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/iphone-tap-focus.jpg',
+        illustration: 'iphone-tap-focus',
         content: 'Tapping the screen tells your iPhone exactly where to focus and sets exposure for that spot. A yellow box appears showing your focus point. By default the iPhone guesses — tapping puts you in control.',
         tip: 'Tap on your subject\'s face, not the background. The iPhone wants to expose for whatever you tap.',
       },
@@ -1247,6 +1270,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/iphone-portrait-mode.jpg',
+        illustration: 'iphone-portrait-mode',
         content: 'Portrait mode uses multiple lenses and machine learning to blur the background (bokeh effect). It works best at 2–8 feet from your subject. Too close or too far and it won\'t engage. The yellow box shows what it\'s focused on.',
         tip: 'Portrait mode works on people, pets, and objects — not just faces.',
       },
@@ -1292,6 +1317,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/iphone-proraw.jpg',
+        illustration: 'iphone-proraw',
         content: 'ProRAW (iPhone 12 Pro and newer) captures all raw sensor data combined with Apple\'s computational photography. You get 10x more editing information than a standard JPEG — meaning you can pull back overexposed highlights or lift deep shadows that would be permanently lost in a JPEG.',
         tip: 'ProRAW files are ~25MB each vs ~5MB for JPEG. Make sure you have storage to spare.',
       },
@@ -1338,6 +1365,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/iphone-night-mode.jpg',
+        illustration: 'iphone-night-mode',
         content: 'Night Mode activates automatically when it\'s dark — a yellow moon icon appears in the top left. The number next to it is the exposure time in seconds. Night Mode takes multiple frames and stacks them, then uses AI to align and merge them into a single sharp, bright photo.',
       },
       {
@@ -1385,6 +1414,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/iphone-cinematic.jpg',
+        illustration: 'iphone-cinematic',
         content: 'Cinematic Mode (iPhone 13 and newer) automatically shifts focus between subjects as they enter and leave the frame — exactly like a professional focus puller on a film set. It records depth data with every frame, so you can change focus points after you\'ve already recorded.',
         tip: 'Cinematic Mode shoots in Dolby Vision HDR. It looks great on any modern screen.',
       },
@@ -1470,6 +1501,7 @@ export const LESSONS: Lesson[] = [
       {
         type: 'info',
         content: 'Three settings control exposure: Aperture (how wide the lens opens), ISO (sensor sensitivity to light), and Shutter Speed (how long the shutter stays open). They\'re connected — changing one requires adjusting the others to maintain correct exposure.',
+        image: '/lessons/pro-exposure-triangle.jpg',
         illustration: 'exposure-triangle',
       },
       {
@@ -1516,6 +1548,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/pro-autofocus.jpg',
+        illustration: 'pro-autofocus',
         content: 'Your professional camera has Eye AF — it detects and locks onto human (or animal) eyes automatically, even mid-burst. This technology that used to cost tens of thousands of dollars is now in your hands. Enable it in your focus or subject recognition menu and prepare to be amazed.',
         tip: 'Look for "Subject Recognition," "Eye Detection," or "Face/Eye AF" in your camera\'s focus menu. Sony, Canon, and Nikon all have it.',
       },
@@ -1562,6 +1596,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/pro-slog.jpg',
+        illustration: 'pro-slog',
         content: 'Your pro camera has a secret weapon hidden in its menu: flat, log-encoded video profiles. Standard profiles deliver a "finished" look in-camera. Log profiles (S-Log, C-Log, N-Log) capture flat footage with massive dynamic range — shadows and highlights the standard mode simply throws away — designed to be color graded in post.',
         tip: 'Log footage looks washed out and gray on your monitor. That\'s correct — it\'s raw material, like an undeveloped film negative. The magic happens in editing.',
       },
@@ -1608,6 +1644,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/pro-frame-rates.jpg',
+        illustration: 'pro-frame-rates',
         content: 'Frame rate determines how smooth or cinematic your footage looks — and whether you can slow it down in post. Your professional camera almost certainly shoots 4K at 60fps and 1080p at 120fps or higher. That\'s incredible capability. Different frame rates tell completely different stories.',
         tip: 'Set your frame rate before shooting — you can\'t add or remove frames in post.',
       },
@@ -1653,6 +1691,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/pro-back-button-focus.jpg',
+        illustration: 'pro-back-button-focus',
         content: 'By default, half-pressing the shutter button activates autofocus AND takes the photo on full press. Back button focus separates these: a button on the back of the camera (AF-ON) activates focus, and the shutter button only takes the photo. No more accidental refocuses.',
         tip: 'Look for an "AF-ON" button on the back of your camera — most pro mirrorless cameras have one. That\'s your new best friend.',
       },
@@ -1736,6 +1776,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/gear-tripod.jpg',
+        illustration: 'gear-tripod',
         content: 'A tripod eliminates camera shake entirely. Even the steadiest hands introduce micro-vibrations visible at slow shutter speeds, telephoto focal lengths, or in video. A tripod is the only piece of gear that improves 100% of your shots when you use it.',
         tip: 'Hang your camera bag from the center column hook to lower the center of gravity and reduce vibration on windy days.',
       },
@@ -1782,6 +1824,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/gear-nd-filters.jpg',
+        illustration: 'gear-nd-filters',
         content: 'An ND (Neutral Density) filter is a darkened piece of optical glass that screws onto the front of your lens. It reduces light entering the camera without affecting color or sharpness — allowing you to use wider apertures or slower shutter speeds than daylight would normally allow.',
         tip: 'Always buy ND filters with a few extra millimeters — a step-up ring lets one filter work on multiple lens sizes.',
       },
@@ -1828,6 +1872,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/gear-slider.jpg',
+        illustration: 'gear-slider',
         content: 'A slider is a rail system that glides your camera in a perfectly smooth, controlled path. The movement adds depth, parallax, and production value that no amount of color grading or editing can replicate. Even a slow 6-inch move transforms a static locked-off shot into something cinematic.',
         tip: 'Move slower than you think. Most beginner slider shots move too fast — aim for 10–20 seconds to cross the full rail.',
       },
@@ -1875,6 +1921,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/gear-lighting.jpg',
+        illustration: 'gear-lighting',
         content: 'Three-point lighting uses three light sources to sculpt a subject with dimension and depth: the Key light (main, brightest), Fill light (reduces shadows), and Back light (separates subject from background). Together they eliminate flat, lifeless lighting and make any subject look professional.',
       },
       {
@@ -1921,6 +1969,8 @@ export const LESSONS: Lesson[] = [
     steps: [
       {
         type: 'info',
+        image: '/lessons/gear-microphones.jpg',
+        illustration: 'gear-microphones',
         content: 'The built-in camera microphone is almost always the worst option: it\'s tiny, picks up wind, camera handling noise, and everything in the room equally. Upgrading your audio is the single change that most improves your video\'s perceived quality.',
         tip: 'Viewers subconsciously judge production value by audio quality. Clean audio = professional. Echoey room audio = amateur.',
       },
